@@ -1,0 +1,11 @@
+FROM golang:1.19-alpine as builder
+
+# create a working directory inside the image
+WORKDIR /go/src/github.com/GreenQuokka
+
+RUN go install github.com/githubnemo/CompileDaemon@latest
+
+EXPOSE 8000
+
+#CMD ["xnotify", "--verbose", "--trigger", "--listen", "0.0.0.0:8001", "-i", "./internal", "--", "go", "build", "main.go", "--", "./main"]
+ENTRYPOINT CompileDaemon -log-prefix=false -polling=true -polling-interval=1500 -build="go build -o tmp/server ./main.go" -command="./tmp/server"
