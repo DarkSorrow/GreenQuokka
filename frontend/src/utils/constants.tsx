@@ -1,6 +1,6 @@
 //TODO: remove, this is for test purpose, check PUBLIC_URL maybe or only /api to call
-export const STORAGE_TOKEN = "_nvt";
-export const PREF_TOKEN = "_nvp";
+export const STORAGE_TOKEN = "_gquok";
+export const PREF_TOKEN = "_tquok";
 
 export const BASE_URL = 'https://greenquokka.texky.com/';
 

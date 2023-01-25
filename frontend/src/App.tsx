@@ -11,7 +11,7 @@ import { AppPage } from './components/pages/app';
 
 const BaseApp = () => {
   const { userToken } = useAuth();
-
+  console.log(userToken)
   return (
     <CssVarsProvider theme={filesTheme}>
       <CssBaseline />
