@@ -1,22 +1,21 @@
 import { createContext, useMemo, useContext, useReducer } from "react";
-import { MenuResources } from '../types/Schemas';
 import { onError } from '../utils/functions';
 //import { nvFetch } from '../services/fetch';
 
 interface LegalState {
   status: "idle" | "signOut" | "signIn";
-  menuResources: MenuResources;
+  menuResources: any;
   appURL: string[]
 }
 
 type LegalAction =
   | {
       type: "SET_MENU";
-      menuResources: MenuResources;
+      menuResources: any;
     };
 
 interface LegalContextActions {
-  setMenu: (menuResources: MenuResources) => void;
+  setMenu: (menuResources: any) => void;
 }
 
 interface LegalContextType extends LegalState, LegalContextActions {}
@@ -51,7 +50,7 @@ export const LegalProvider = ({ userToken, children }: { userToken: string, chil
 
   const legalActions: LegalContextActions = useMemo(
     () => ({
-      setMenu: async (menuResources: MenuResources) => {
+      setMenu: async (menuResources: any) => {
         dispatch({ type: "SET_MENU", menuResources });
       }
       //ADD REFRESH FUNCTION 

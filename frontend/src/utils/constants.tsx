@@ -1,5 +1,3 @@
-import world from '../assets/currencies.json';
-import { OptionType } from '../types/App'
 //TODO: remove, this is for test purpose, check PUBLIC_URL maybe or only /api to call
 export const STORAGE_TOKEN = "_nvt";
 export const PREF_TOKEN = "_nvp";
@@ -22,22 +20,6 @@ export const LANGUAGE_LIST: List = {
 }
 
 export const SUPPORTED_LANGUAGES: string[] = Object.keys(LANGUAGE_LIST);
-
-interface CurrencyInfo {
-  // Symbol
-  s: string;
-  // Decimal for the current currencies
-  d: number;
-}
-
-interface Currencies {
-  list: string[];
-  options: OptionType[];
-  currency: Record<string, CurrencyInfo>;
-  country: Record<string, string[]>;
-}
-
-export const CURRENCIES: Currencies = world;
 
 export interface LangNames {
   id: string;

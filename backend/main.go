@@ -39,7 +39,7 @@ func main() {
 		serverShutdown <- struct{}{}
 	}()
 
-	if err := app.Listen(":8000"); err != nil {
+	if err := app.Listen(":8100"); err != nil {
 		logger.Panic("List error", zap.Error(err))
 	}
 

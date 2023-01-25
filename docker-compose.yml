@@ -1,0 +1,32 @@
+version: "3.7"
+services:
+  backend:
+    image: quokkaback:dev
+    ports:
+      - 8100:8100
+    working_dir: /go/src/github.com/GreenQuokka
+    build:
+      args:
+        NODE_ENV: development
+      context: ./backend
+      dockerfile: ./Dockerfile.dev
+    environment:
+      DB_KEYSPACE: "quokka"
+      DB_USER: "quokka"
+      DB_PASS: ""
+      DB_HOST: ""
+    volumes:
+      - './backend:/go/src/github.com/GreenQuokka'
+  frontend:
+    image: quokkafront:dev
+    ports:
+      - 3000:3000
+    working_dir: /app
+    build:
+      context: ./frontend
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - './frontend:/app'
+      - /app/node_modules
+    environment:
+      NOVA_BACKEND_URL: 'http://backend:8100'

@@ -8,6 +8,7 @@ lerna-debug.log*
 
 # Docker compose
 docker-compose-dev.yml
+docker-compose.yml
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -105,3 +106,4 @@ dist
 
 # TernJS port file
 .tern-port
+backend/tmp/server

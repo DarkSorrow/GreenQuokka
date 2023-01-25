@@ -1,5 +1,4 @@
 import { createContext, useMemo, useContext, useReducer } from "react";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTranslation } from 'react-i18next';
 //import { nanoid } from 'nanoid';
 
@@ -40,7 +39,6 @@ interface AuthState {
   entities: EntitiesGroup | null;
   homeURL: string;
   status: "idle" | "signOut" | "signIn";
-  isDark: boolean;
   langDir: direction;
   openMenu: boolean;
   legalEntity: LegalEntity;
@@ -54,10 +52,6 @@ type AuthAction =
       entities: EntitiesGroup;
       exp: Date;
       homeURL: string;
-    }
-  | {
-      type: "SWITCH_THEME";
-      isDark: boolean;
     }
   | {
       type: "SWITCH_MENU";
@@ -87,7 +81,6 @@ interface AuthContextActions {
     exp: string,
   ) => void;
   signOut: () => void;
-  changeTheme: (isDark: boolean) => void;
   changeMenu: (openMenu: boolean) => void;
   changeLanguage: (language: string) => void;
   setLegalEntity: (legalEntity: LegalEntity) => void;
@@ -101,14 +94,12 @@ const AuthContext = createContext<AuthContextType>({
   exp: null,
   entities: null,
   homeURL: "",
-  isDark: false,
   langDir: "ltr",
   openMenu: true,
   snackbar: { open: false, i18nMessage: '' },
   legalEntity: emptyLegal,
   signIn: () => {},
   signOut: () => {},
-  changeTheme: () => {},
   changeMenu: () => {},
   changeLanguage: () => {},
   setLegalEntity: () => {},
@@ -117,7 +108,6 @@ const AuthContext = createContext<AuthContextType>({
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { i18n } = useTranslation();
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const initProvider = (arg: AuthState) => {
     document.dir = i18n.dir();
     document.documentElement.setAttribute("lang", i18n.language);
@@ -140,7 +130,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     entities: null,
     exp: null,
     homeURL: "",
-    isDark: prefersDarkMode,
     langDir: i18n.dir(),
     openMenu: true,
     legalEntity: emptyLegal,
@@ -187,9 +176,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           method: 'GET',
         });
         dispatch({ type: "SIGN_OUT" });
-      },
-      changeTheme: async (isDark: boolean) => {
-        dispatch({ type: "SWITCH_THEME", isDark });
       },
       changeMenu: async (openMenu: boolean) => {
         dispatch({ type: "SWITCH_MENU", openMenu });
@@ -245,11 +231,6 @@ const AuthReducer = (prevState: AuthState, action: AuthAction): AuthState => {
         status: "signOut",
         userToken: null,
         entities: null,
-      };
-    case "SWITCH_THEME":
-      return {
-        ...prevState,
-        isDark: action.isDark,
       };
     case "SWITCH_MENU":
       return {
