@@ -10,5 +10,7 @@
   "register": "Sign up",
   "login": "Log in",
   "pwd": "Password",
-  "email": "Email"
+  "email": "Email",
+  "notFound": "Page not found",
+  "backhome": "Back home"
 }

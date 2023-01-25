@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { Routes, Route, Navigate } from "react-router-dom";
+import { useState } from 'react';
+import { Routes, Route } from "react-router-dom";
 
 import { AnonymousTemplate } from '../templates/anonymous';
 import { AnonymousNavigation } from '../organisms/anonymous-navigation';
@@ -10,9 +10,6 @@ import { AnonymousHomePage } from './anonymous-home';
 import { AnonymousContactPage } from './anonymous-contact';
 import { AnonymousSignin } from './anonymous-signin';
 import { AnonymousSignup } from './anonymous-signup';
-
-const pages = ['/', 'prices', 'contact'];
-const userPages = ['signup', 'signin'];
 
 export const AnonymousPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
