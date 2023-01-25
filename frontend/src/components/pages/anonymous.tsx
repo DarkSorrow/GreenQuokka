@@ -8,7 +8,8 @@ import { AnonymousHeader } from '../organisms/anonymous-header';
 import { ErrorNotFound } from './error-not-found';
 import { AnonymousHomePage } from './anonymous-home';
 import { AnonymousContactPage } from './anonymous-contact';
-import { AnonymousSign } from './anonymous-sign';
+import { AnonymousSignin } from './anonymous-signin';
+import { AnonymousSignup } from './anonymous-signup';
 
 const pages = ['/', 'prices', 'contact'];
 const userPages = ['signup', 'signin'];
@@ -27,7 +28,8 @@ export const AnonymousPage = () => {
           />
         }>
         <Route index element={<AnonymousHomePage />} />
-        <Route path="connect" element={<AnonymousSign />} />
+        <Route path="connect" element={<AnonymousSignin />} />
+        <Route path="register" element={<AnonymousSignup />} />
         <Route path="contact" element={<AnonymousContactPage />} />
         <Route
           path="*"

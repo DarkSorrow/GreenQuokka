@@ -1,5 +1,14 @@
 {
   "home": "Home",
   "contact": "Contact",
-  "connect": "Connection"
+  "connect": "Connection",
+  "welcome": "Welcome",
+  "signin": "Sign in to continue.",
+  "signup": "Register your account.",
+  "nologin": "Don't have an account?",
+  "account": "Already have an account?",
+  "register": "Sign up",
+  "login": "Log in",
+  "pwd": "Password",
+  "email": "Email"
 }
