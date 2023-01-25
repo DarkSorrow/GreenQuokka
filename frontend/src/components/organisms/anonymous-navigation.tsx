@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import Box from '@mui/joy/Box';
 import IconButton from '@mui/joy/IconButton';
 import List from '@mui/joy/List';
@@ -10,10 +9,7 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import { AnonymousRoutesLink } from '../molecules/anonymous-routes-link';
 
 // Icons import
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 export const AnonymousNavigation = () => {
   return (

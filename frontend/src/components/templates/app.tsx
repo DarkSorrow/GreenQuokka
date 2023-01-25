@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { Outlet } from "react-router-dom";
 
 import { LayoutRoot } from '../atoms/layout-root';
