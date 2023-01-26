@@ -25,7 +25,7 @@ export const AppNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
           </IconButton>
         </ListSubheader>
         <List
@@ -37,7 +37,7 @@ export const AppNavigation = () => {
           <ListItem>
             <ListItemButton variant="soft" color="primary">
               <ListItemDecorator sx={{ color: 'inherit' }}>
-                <FolderOpenIcon fontSize="small" />
+                <FolderOpenIcon fontSize="sm" />
               </ListItemDecorator>
               <ListItemContent>My files</ListItemContent>
             </ListItemButton>
@@ -45,7 +45,7 @@ export const AppNavigation = () => {
           <ListItem>
             <ListItemButton>
               <ListItemDecorator sx={{ color: 'neutral.500' }}>
-                <ShareOutlinedIcon fontSize="small" />
+                <ShareOutlinedIcon fontSize="sm" />
               </ListItemDecorator>
               <ListItemContent>Shared files</ListItemContent>
             </ListItemButton>
@@ -53,7 +53,7 @@ export const AppNavigation = () => {
           <ListItem>
             <ListItemButton>
               <ListItemDecorator sx={{ color: 'neutral.500' }}>
-                <DeleteRoundedIcon fontSize="small" />
+                <DeleteRoundedIcon fontSize="sm" />
               </ListItemDecorator>
               <ListItemContent>Trash</ListItemContent>
             </ListItemButton>
@@ -69,7 +69,7 @@ export const AppNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
           </IconButton>
         </ListSubheader>
         <List

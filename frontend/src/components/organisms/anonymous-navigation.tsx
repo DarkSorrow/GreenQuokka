@@ -23,7 +23,7 @@ export const AnonymousNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
           </IconButton>
         </ListSubheader>
         <AnonymousRoutesLink
@@ -42,7 +42,7 @@ export const AnonymousNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
           </IconButton>
         </ListSubheader>
         <List

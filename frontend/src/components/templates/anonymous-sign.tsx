@@ -29,26 +29,7 @@ export const AnonymousSignTemplate = ({ header, forms, footer }: TemplateProps) 
       variant="outlined"
     >
       {header}
-      <FormControl>
-        <FormLabel>Email</FormLabel>
-        <Input
-          // html input attribute
-          name="email"
-          type="email"
-          placeholder="johndoe@email.com"
-        />
-      </FormControl>
-      <FormControl>
-        <FormLabel>Password</FormLabel>
-        <Input
-          // html input attribute
-          name="password"
-          type="password"
-          placeholder="password"
-        />
-      </FormControl>
-
-      <Button sx={{ mt: 1 /* margin top */ }}>Log in</Button>
+      {forms}
       {footer}
     </Sheet>
   );

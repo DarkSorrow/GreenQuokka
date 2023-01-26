@@ -5,10 +5,11 @@
   "dependencies": {
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
+    "@hookform/resolvers": "^2.9.10",
     "@lexical/react": "^0.7.6",
-    "@mui/icons-material": "^5.11.0",
-    "@mui/joy": "5.0.0-alpha.64",
-    "@mui/material": "^5.11.6",
+    "@mui/icons-material": "^5.0.0",
+    "@mui/joy": "latest",
+    "@mui/material": "npm:@mui/joy@latest",
     "@tanstack/react-query": "^4.23.0",
     "@tanstack/react-query-devtools": "^4.23.0",
     "@testing-library/jest-dom": "^5.14.1",
@@ -30,6 +31,7 @@
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.42.1",
     "react-i18next": "^12.1.4",
     "react-router-dom": "^6.7.0",
     "react-scripts": "5.0.1",
@@ -40,7 +42,7 @@
     "zod": "^3.20.2"
   },
   "resolutions": {
-    "@mui/material": "npm:@mui/joy@5.0.0-alpha.64"
+    "@mui/material": "npm:@mui/joy@latest"
   },
   "scripts": {
     "start": "react-scripts start",
