@@ -12,12 +12,17 @@ import { HeaderText } from '../atoms/header-text';
 import { FooterTextLink } from '../atoms/footer-text-link';
 import { AnonymousSignTemplate } from '../templates/anonymous-sign';
 import { SubmitLoading } from "../atoms/submit-loading";
+import { useAuth } from '../../providers/auth';
 
 export const AnonymousSignup = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const onSubmitHandler: SubmitHandler<IFormSignup> = async (values: IFormSignup) => {
     console.log(values);
+    await signIn(new Date().toISOString());
+    navigate('/');
   }
 
   return (

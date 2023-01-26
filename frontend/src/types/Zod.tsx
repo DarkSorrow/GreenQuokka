@@ -1,4 +1,4 @@
-import { array, object, record, string, union, TypeOf } from 'zod';
+import { object, string, TypeOf } from 'zod';
 
 export const SignInSchema = object({
   email: string().email(),
@@ -22,15 +22,6 @@ const AddressSchema = object({
   type: string().optional(),
   name: string().optional(),
 });
-
-const ImageJSONSchema = object({
-  i: array(string().regex(/^https/, 'URLSecure').url('URLFormat')),
-  ll: record(string(), string()),
-  dl: record(string(), string()),
-  v: string(),
-});
-
-const lexicalEditor = union([string(), object({}).passthrough().transform((val) => JSON.stringify(val))]);
 
 export type IFormAddress = TypeOf<typeof AddressSchema>;
 export type IFormSignup = TypeOf<typeof SignUpSchema>;
