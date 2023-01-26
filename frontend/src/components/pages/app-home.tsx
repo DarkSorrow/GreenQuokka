@@ -1,5 +1,5 @@
 export const AppHomePage = () => {
   return (
-    <div>Home page of app</div>
+    <div>Home / Dashboard page of app</div>
   );
 }

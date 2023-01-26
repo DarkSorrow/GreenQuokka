@@ -6,6 +6,7 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemContent from '@mui/joy/ListItemContent';
+import { useTranslation } from "react-i18next";
 
 // Icons import
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -13,12 +14,16 @@ import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
+import { AppNavLink } from '../atoms/app-nav-link';
+
 export const AppNavigation = () => {
+  const { t } = useTranslation();
+  
   return (
     <List size="sm" sx={{ '--List-item-radius': '8px', '--List-gap': '4px' }}>
       <ListItem nested>
         <ListSubheader>
-          Browse
+          {t<string>('app')}
           <IconButton
             size="sm"
             variant="plain"
@@ -34,35 +39,26 @@ export const AppNavigation = () => {
             '& .JoyListItemButton-root': { p: '8px' },
           }}
         >
-          <ListItem>
-            <ListItemButton variant="soft" color="primary">
-              <ListItemDecorator sx={{ color: 'inherit' }}>
-                <FolderOpenIcon fontSize="sm" />
-              </ListItemDecorator>
-              <ListItemContent>My files</ListItemContent>
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator sx={{ color: 'neutral.500' }}>
-                <ShareOutlinedIcon fontSize="sm" />
-              </ListItemDecorator>
-              <ListItemContent>Shared files</ListItemContent>
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator sx={{ color: 'neutral.500' }}>
-                <DeleteRoundedIcon fontSize="sm" />
-              </ListItemDecorator>
-              <ListItemContent>Trash</ListItemContent>
-            </ListItemButton>
-          </ListItem>
+          <AppNavLink 
+            icon={<FolderOpenIcon fontSize="sm" />}
+            text={t<string>('dashboard')}
+            href="/"
+          />
+          <AppNavLink 
+            icon={<ShareOutlinedIcon fontSize="sm" />}
+            text={t<string>('schema')}
+            href="/schemas"
+          />
+          <AppNavLink 
+            icon={<DeleteRoundedIcon fontSize="sm" />}
+            text={t<string>('market')}
+            href="/market"
+          />
         </List>
       </ListItem>
       <ListItem nested sx={{ mt: 2 }}>
         <ListSubheader>
-          Tags
+          {t<string>('settings')}
           <IconButton
             size="sm"
             variant="plain"
@@ -79,21 +75,11 @@ export const AppNavigation = () => {
             '--List-decorator-size': '32px',
           }}
         >
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator>
-                <Box
-                  sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'primary.300',
-                  }}
-                />
-              </ListItemDecorator>
-              <ListItemContent>Personal</ListItemContent>
-            </ListItemButton>
-          </ListItem>
+          <AppNavLink 
+            icon={<DeleteRoundedIcon fontSize="sm" />}
+            text={t<string>('profile')}
+            href="/profile"
+          />
           <ListItem>
             <ListItemButton>
               <ListItemDecorator>
@@ -106,7 +92,7 @@ export const AppNavigation = () => {
                   }}
                 />
               </ListItemDecorator>
-              <ListItemContent>Work</ListItemContent>
+              <ListItemContent>{t<string>('theme')}</ListItemContent>
             </ListItemButton>
           </ListItem>
           <ListItem>
@@ -121,7 +107,7 @@ export const AppNavigation = () => {
                   }}
                 />
               </ListItemDecorator>
-              <ListItemContent>Travels</ListItemContent>
+              <ListItemContent>{t<string>('lang')}</ListItemContent>
             </ListItemButton>
           </ListItem>
           <ListItem>
@@ -136,7 +122,7 @@ export const AppNavigation = () => {
                   }}
                 />
               </ListItemDecorator>
-              <ListItemContent>Concert tickets</ListItemContent>
+              <ListItemContent>{t<string>('logout')}</ListItemContent>
             </ListItemButton>
           </ListItem>
         </List>

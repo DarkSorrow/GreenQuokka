@@ -79,7 +79,7 @@ export const AppHeader = ({ setDrawerOpen }: OrganismsProp) => {
           variant="outlined"
           color="primary"
           component="a"
-          href="/blog/first-look-at-joy/"
+          href="#"
         >
           <BookRoundedIcon />
         </IconButton>

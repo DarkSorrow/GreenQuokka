@@ -13,5 +13,16 @@
   "email": "Email",
   "notFound": "Page not found",
   "backhome": "Back home",
-  "choosecountry": "Choose a country"
+  "choosecountry": "Choose a country",
+  "app": "Application",
+  "settings": "Settings",
+  "wallet": "Wallet",
+  "web": "Website",
+  "schema": "Data structure",
+  "market": "Market place",
+  "dashboard": "Dashboard",
+  "profile": "Profile",
+  "theme": "Change theme",
+  "lang": "Change language",
+  "logout": "Logout"
 }

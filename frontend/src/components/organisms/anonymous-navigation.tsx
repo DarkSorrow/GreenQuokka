@@ -6,17 +6,19 @@ import ListItem from '@mui/joy/ListItem';
 import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemContent from '@mui/joy/ListItemContent';
+import { useTranslation } from "react-i18next";
 import { AnonymousRoutesLink } from '../molecules/anonymous-routes-link';
 
 // Icons import
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 export const AnonymousNavigation = () => {
+  const { t } = useTranslation();
   return (
     <List size="sm" sx={{ '--List-item-radius': '8px', '--List-gap': '4px' }}>
       <ListItem nested>
         <ListSubheader>
-          Website
+          {t<string>('web')}
           <IconButton
             size="sm"
             variant="plain"
