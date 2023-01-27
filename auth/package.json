@@ -1,0 +1,11 @@
+{
+  "name": "openid-web3",
+  "version": "0.0.1",
+  "description": "OpenID certified server with ability to use web3 connections",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Hassan Allybocus",
+  "license": "MIT"
+}

@@ -13,11 +13,16 @@ import FolderOpenIcon from '@mui/icons-material/FolderOpen';
 import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 import { AppNavLink } from '../atoms/app-nav-link';
+import { AppListButton } from '../atoms/app-list-button';
+import { AppLangMenu } from '../atoms/app-lang-menu';
+import { useAuth } from '../../providers/auth';
 
 export const AppNavigation = () => {
   const { t } = useTranslation();
+  const { signOut } = useAuth();
   
   return (
     <List size="sm" sx={{ '--List-item-radius': '8px', '--List-gap': '4px' }}>
@@ -69,10 +74,9 @@ export const AppNavigation = () => {
           </IconButton>
         </ListSubheader>
         <List
-          aria-labelledby="nav-list-tags"
-          size="sm"
+          aria-labelledby="action-list"
           sx={{
-            '--List-decorator-size': '32px',
+            '& .JoyListItemButton-root': { p: '8px' },
           }}
         >
           <AppNavLink 
@@ -80,21 +84,15 @@ export const AppNavigation = () => {
             text={t<string>('profile')}
             href="/profile"
           />
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator>
-                <Box
-                  sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'danger.400',
-                  }}
-                />
-              </ListItemDecorator>
-              <ListItemContent>{t<string>('theme')}</ListItemContent>
-            </ListItemButton>
-          </ListItem>
+          <AppLangMenu />
+          <AppListButton 
+            icon={<LogoutIcon fontSize="sm" />}
+            text={t<string>('logout')}
+            onClick={() => {
+              console.log('logout');
+              signOut();
+            }}
+          />
           <ListItem>
             <ListItemButton>
               <ListItemDecorator>
