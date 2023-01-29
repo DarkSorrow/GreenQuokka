@@ -8,17 +8,11 @@ import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import Person from '@mui/icons-material/Person';
-import Apps from '@mui/icons-material/Apps';
-import FactCheck from '@mui/icons-material/FactCheck';
 import TranslateIcon from '@mui/icons-material/Translate';
 import { useTranslation } from "react-i18next";
 import { useAuth } from '../../providers/auth';
 
 import { LANGUAGE_LIST, SUPPORTED_LANGUAGES } from '../../utils/constants';
-
-interface AtomsProps {
-}
 
 const useRovingIndex = (options?: any) => {
   const { initialActiveIndex = 0, vertical = false, handlers = {} } = options || {};

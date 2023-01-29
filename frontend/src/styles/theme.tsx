@@ -1,4 +1,3 @@
-import * as React from "react";
 import { deepmerge } from "@mui/utils";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import {
@@ -29,27 +28,11 @@ import {
 import colors from "@mui/joy/colors";
 import {
   extendTheme as extendJoyTheme,
-  CssVarsProvider,
-  useColorScheme,
   Theme as JoyTheme,
   ThemeCssVar as JoyThemeCssVar
 } from "@mui/joy/styles";
 
-// Material UI components
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
-
-// Icons
-import DarkMode from "@mui/icons-material/DarkMode";
-import LightMode from "@mui/icons-material/LightMode";
-
 // Joy UI components
-import AspectRatio from "@mui/joy/AspectRatio";
-import Box from "@mui/joy/Box";
-import JoyButton from "@mui/joy/Button";
-import IconButton from "@mui/joy/IconButton";
-import Card from "@mui/joy/Card";
-import Typography from "@mui/joy/Typography";
 import { CommonColors } from "@mui/material/styles/createPalette";
 import { TypeBackground } from "@mui/material";
 
@@ -103,22 +86,6 @@ declare module "@mui/material/styles" {
   // makes Material UI theme.getCssVar() sees Joy theme tokens
   interface ThemeCssVarOverrides extends MergedThemeCssVar {}
 }
-
-const ModeToggle = () => {
-  const { mode, setMode } = useColorScheme();
-  const [mounted, setMounted] = React.useState(false);
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-  if (!mounted) {
-    return null;
-  }
-  return (
-    <IconButton onClick={() => setMode(mode === "dark" ? "light" : "dark")}>
-      {mode === "dark" ? <DarkMode /> : <LightMode />}
-    </IconButton>
-  );
-};
 
 const { unstable_sxConfig: muiSxConfig, ...muiTheme } = extendMuiTheme({
   cssVarPrefix: "joy",
