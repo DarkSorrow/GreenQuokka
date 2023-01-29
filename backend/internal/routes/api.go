@@ -21,6 +21,16 @@ func Api(app *fiber.App, logger *zap.Logger, tokenManager *services.TokenManager
 	r.Use(h.LoggingRequest)
 	r.Use(h.AuthentifyRequest)
 
+	r.Get("/topic", h.GetTopics)
+	r.Delete("/topic/:topic", h.RemoveTopic)
+	r.Post("/topic", h.UpsertTopic)
+
+	// Templates management
+	r.Get("/templates/:topic", h.GetTemplates)
+	r.Get("/template/:topic/:subject", h.GetTemplate)
+	r.Delete("/template/:topic/:subject/:version", h.RemoveTemplate)
+	r.Post("/template", h.UpsertTemplate)
+
 	//r.Get("/log/renew", h.RenewUser)
 	// Legal entity management
 	//r.Get("/entity", h.GetLegal)

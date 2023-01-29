@@ -11,6 +11,7 @@
     "@mui/joy": "latest",
     "@mui/material": "latest",
     "@mui/utils": "latest",
+    "@mui/x-data-grid": "^5.17.21",
     "@rjsf/core": "5.0.0-beta.20",
     "@rjsf/mui": "5.0.0-beta.20",
     "@rjsf/utils": "5.0.0-beta.20",

@@ -49,6 +49,7 @@ type AuthAction =
   | {
       type: "SIGN_IN";
       token: string | null;
+      entities: any;
       exp: Date;
       homeURL: string;
     }
@@ -76,6 +77,7 @@ type AuthAction =
 
 interface AuthContextActions {
   signIn: (
+    entities: any,
     exp: string,
   ) => void;
   signOut: () => void;
@@ -137,19 +139,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const authActions: AuthContextActions = useMemo(
     () => ({
       signIn: async (
+        entities: any,
         exp: string,
       ) => {
-        //const oldToken = localStorage.getItem(PREF_TOKEN);
-        let token = 'test';
+        const oldToken = localStorage.getItem(PREF_TOKEN);
+        let token = null;
         let expire = new Date(exp);
+        if (oldToken && entities[oldToken]) {
+          token = oldToken;
+        } else {
+          let legalIDs = Object.keys(entities);
+          for (let i = 0; i < legalIDs.length; ++i) {
+            token = legalIDs[i];
+            if (entities[legalIDs[i]].Groups.indexOf('creator')) {
+              break;
+            }
+          }
+        }
         localStorage.setItem(STORAGE_TOKEN, JSON.stringify({
           token,
           exp: expire,
+          entities,
         }));
         //WhenDone: Check preferences of the user?
         dispatch({
           type: "SIGN_IN",
           token,
+          entities,
           exp: expire,
           homeURL: "",
         });
@@ -205,6 +221,7 @@ const AuthReducer = (prevState: AuthState, action: AuthAction): AuthState => {
         ...prevState,
         status: "signIn",
         userToken: action.token,
+        entities: action.entities,
         exp: action.exp,
         homeURL: action.homeURL,
       };

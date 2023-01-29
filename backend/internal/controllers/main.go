@@ -67,7 +67,7 @@ func (h ApiHandler) LoggingRequest(ctx *fiber.Ctx) error {
 // Check if the query token is valid
 func (h ApiHandler) AuthentifyRequest(ctx *fiber.Ctx) error {
 	token := ctx.Cookies("sid", "")
-	headerToken := ctx.Get("X-Nv-Token", "")
+	headerToken := ctx.Get("X-Quokka-Token", "")
 	if token == "" || headerToken == "" {
 		h.Log.Warn("authorized-empty", zap.String("ip", ctx.IP()), zap.String("h-token", headerToken), zap.String("c-token", token))
 		return ctx.Status(403).JSON(fiber.Map{"error": "NotAuthorized"})

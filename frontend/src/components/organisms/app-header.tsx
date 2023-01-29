@@ -6,11 +6,11 @@ import IconButton from '@mui/joy/IconButton';
 
 // Icons import
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 import BookRoundedIcon from '@mui/icons-material/BookRounded';
 
 import { ThemeToggle } from '../atoms/theme-toggle';
+import LogoIcon from '../../logo.svg';
 
 interface OrganismsProp {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>,
@@ -37,10 +37,10 @@ export const AppHeader = ({ setDrawerOpen }: OrganismsProp) => {
         </IconButton>
         <IconButton
           size="sm"
-          variant="solid"
+          variant="soft"
           sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
         >
-          <FindInPageRoundedIcon />
+          <img src={LogoIcon} height="24" width="24" alt="logo" />
         </IconButton>
         <Typography component="h1" fontWeight="xl">
           Green Quokka

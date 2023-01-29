@@ -9,6 +9,7 @@ import { AppHomePage } from './app-home';
 import { AppSchemasPage } from './app-schemas';
 import { AppMarketPage } from './app-market';
 import { AppProfilePage } from './app-profile';
+import { AppEditSchemaPage } from './app-edit-schemas';
 
 export const AppPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -25,7 +26,8 @@ export const AppPage = () => {
         }>
         <Route index element={<AppHomePage />} />
         <Route path="dashboard/*" element={<AppHomePage />} />
-        <Route path="schemas" element={<AppSchemasPage />} />
+        <Route path="schemas/*" element={<AppSchemasPage />} />
+        <Route path="schemas/topic/:topic/:subject" element={<AppEditSchemaPage />} />
         <Route path="market" element={<AppMarketPage />} />
         <Route path="profile" element={<AppProfilePage />} />
         <Route

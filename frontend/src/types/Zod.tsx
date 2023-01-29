@@ -1,13 +1,13 @@
-import { object, string, TypeOf } from 'zod';
+import { object, string, number, TypeOf } from 'zod';
 
 export const SignInSchema = object({
   email: string().email(),
-  password: string().min(8),
+  pwd: string().min(8),
 });
 
 export const SignUpSchema = object({
   email: string().email(),
-  password: string(),
+  pwd: string().min(8),
   country: string().optional(),
 });
 
@@ -23,6 +23,15 @@ const AddressSchema = object({
   name: string().optional(),
 });
 
+export const TemplateSchema = object({
+  topic:      string(),
+  subject:    string(),
+  version:    number(),
+  schemaBody: object({}).passthrough(),
+  format:     string(),
+});
+
 export type IFormAddress = TypeOf<typeof AddressSchema>;
 export type IFormSignup = TypeOf<typeof SignUpSchema>;
 export type IFormSignin = TypeOf<typeof SignInSchema>;
+export type IFormTemplate = TypeOf<typeof TemplateSchema>;

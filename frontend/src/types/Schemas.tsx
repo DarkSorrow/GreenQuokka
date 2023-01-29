@@ -146,3 +146,14 @@ export interface ProductORG {
   isAccessoryOrSparePartFor?: string[];
   isConsumableFor?: string[];
 }
+
+export interface Template {
+  topic:      string;
+  subject:    string;
+  version:    number;
+  schemaBody: any;
+  format:     string;
+	updatedBy?: string;
+	updatedAt?: Date;
+  createdAt?: Date;
+}

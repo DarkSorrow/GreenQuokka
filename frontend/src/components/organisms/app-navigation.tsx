@@ -7,23 +7,26 @@ import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
 import ListItemContent from '@mui/joy/ListItemContent';
 import { useTranslation } from "react-i18next";
+import { useNavigate } from 'react-router';
 
 // Icons import
-import FolderOpenIcon from '@mui/icons-material/FolderOpen';
-import ShareOutlinedIcon from '@mui/icons-material/ShareOutlined';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SchemaIcon from '@mui/icons-material/Schema';
+import StoreIcon from '@mui/icons-material/Store';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 
 import { AppNavLink } from '../atoms/app-nav-link';
 import { AppListButton } from '../atoms/app-list-button';
 import { AppLangMenu } from '../atoms/app-lang-menu';
 import { useAuth } from '../../providers/auth';
 
+
 export const AppNavigation = () => {
   const { t } = useTranslation();
   const { signOut } = useAuth();
-  
+  const navigate = useNavigate();
   return (
     <List size="sm" sx={{ '--List-item-radius': '8px', '--List-gap': '4px' }}>
       <ListItem nested>
@@ -45,17 +48,17 @@ export const AppNavigation = () => {
           }}
         >
           <AppNavLink 
-            icon={<FolderOpenIcon fontSize="small" />}
+            icon={<DashboardIcon fontSize="small" />}
             text={t<string>('dashboard')}
             href="/"
           />
           <AppNavLink 
-            icon={<ShareOutlinedIcon fontSize="small" />}
+            icon={<SchemaIcon fontSize="small" />}
             text={t<string>('schema')}
             href="/schemas"
           />
           <AppNavLink 
-            icon={<DeleteRoundedIcon fontSize="small" />}
+            icon={<StoreIcon fontSize="small" />}
             text={t<string>('market')}
             href="/market"
           />
@@ -80,7 +83,7 @@ export const AppNavigation = () => {
           }}
         >
           <AppNavLink 
-            icon={<DeleteRoundedIcon fontSize="small" />}
+            icon={<AccountCircleIcon fontSize="small" />}
             text={t<string>('profile')}
             href="/profile"
           />
@@ -91,6 +94,7 @@ export const AppNavigation = () => {
             onClick={() => {
               console.log('logout');
               signOut();
+              navigate('/');
             }}
           />
           <ListItem>

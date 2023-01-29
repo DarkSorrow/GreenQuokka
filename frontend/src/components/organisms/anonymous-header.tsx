@@ -5,11 +5,11 @@ import IconButton from '@mui/joy/IconButton';
 import Divider from '@mui/joy/Divider';
 
 // Icons import
-import FindInPageRoundedIcon from '@mui/icons-material/FindInPageRounded';
 import MenuIcon from '@mui/icons-material/Menu';
 
 import { AnonymousRoutesLink } from '../molecules/anonymous-routes-link';
 import { AnonymousRoutesSettings } from '../molecules/anonymous-routes-settings';
+import LogoIcon from '../../logo.svg';
 
 interface OrganismsProp {
   setDrawerOpen: Dispatch<SetStateAction<boolean>>,
@@ -39,7 +39,7 @@ export const AnonymousHeader = ({ setDrawerOpen }: OrganismsProp) => {
           variant="solid"
           sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
         >
-          <FindInPageRoundedIcon />
+          <img src={LogoIcon} height="24" width="24" alt="logo" />
         </IconButton>
         <Typography component="h1" fontWeight="xl">
           Green Quokka

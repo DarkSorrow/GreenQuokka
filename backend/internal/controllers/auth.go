@@ -83,9 +83,7 @@ func (h AuthHandler) AuthSignup(ctx *fiber.Ctx) error {
 	if err := ctx.BodyParser(userSignup); err != nil {
 		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "WrongRequest"})
 	}
-	if !userSignup.Terms {
-		return ctx.Status(400).JSON(fiber.Map{"error": "WrongRequest"})
-	}
+	userSignup.Terms = true
 	if _, exist := CountriesList[userSignup.Country]; !exist {
 		h.Log.Error("signup", zap.String("part", "country"), zap.String("ip", ctx.IP()), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
 		return ctx.Status(400).JSON(fiber.Map{"error": "WrongRequest"})

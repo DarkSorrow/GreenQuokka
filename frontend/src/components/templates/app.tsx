@@ -28,7 +28,7 @@ export const AppTemplate = ({ navigation, header, drawerOpen, setDrawerOpen }: T
           gridTemplateColumns: {
             xs: '1fr',
             sm: 'minmax(64px, 200px) minmax(450px, 1fr)',
-            md: 'minmax(160px, 300px) minmax(600px, 1fr) minmax(300px, 420px)',
+            md: 'minmax(160px, 300px) minmax(600px, 1fr) minmax(200px, 220px)',
           },
           ...(drawerOpen && {
             height: '100vh',
