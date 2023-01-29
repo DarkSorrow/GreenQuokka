@@ -12,7 +12,7 @@ export const FooterTextLink = ({ linkText, text, href }: AtomsProps) => {
   return (
     <Typography
       endDecorator={<Link component={RouterLink} to={href}>{linkText}</Link>}
-      fontSize="sm"
+      fontSize="small"
       sx={{ alignSelf: 'center' }}
     >
       {text}

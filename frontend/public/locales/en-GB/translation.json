@@ -24,5 +24,6 @@
   "profile": "Profile",
   "theme": "Change theme",
   "lang": "Change language",
-  "logout": "Logout"
+  "logout": "Logout",
+  "online": "online"
 }

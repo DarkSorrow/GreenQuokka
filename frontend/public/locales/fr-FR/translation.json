@@ -17,12 +17,13 @@
   "app": "Application",
   "settings": "Settings",
   "wallet": "Wallet",
-  "web": "Website",
-  "schema": "Data structure",
-  "market": "Market place",
-  "dashboard": "Dashboard",
+  "web": "Site web",
+  "schema": "Gestion",
+  "market": "Place de marché",
+  "dashboard": "Tableau de bord",
   "profile": "Profile",
-  "theme": "Change theme",
-  "lang": "Change language",
-  "logout": "Logout"
+  "theme": "Changer le thème",
+  "lang": "Changer la langue",
+  "logout": "Logout",
+  "online": "online"
 }

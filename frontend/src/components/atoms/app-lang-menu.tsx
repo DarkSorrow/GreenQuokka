@@ -2,20 +2,20 @@ import { useState, useRef, forwardRef } from 'react';
 import PopperUnstyled from '@mui/base/PopperUnstyled';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import Box from '@mui/joy/Box';
-import IconButton from '@mui/joy/IconButton';
-import Chip from '@mui/joy/Chip';
 import List from '@mui/joy/List';
-import ListDivider from '@mui/joy/ListDivider';
 import ListItem from '@mui/joy/ListItem';
 import ListItemContent from '@mui/joy/ListItemContent';
 import ListItemButton from '@mui/joy/ListItemButton';
 import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import HomeRounded from '@mui/icons-material/HomeRounded';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import Person from '@mui/icons-material/Person';
 import Apps from '@mui/icons-material/Apps';
 import FactCheck from '@mui/icons-material/FactCheck';
 import TranslateIcon from '@mui/icons-material/Translate';
+import { useTranslation } from "react-i18next";
+import { useAuth } from '../../providers/auth';
+
+import { LANGUAGE_LIST, SUPPORTED_LANGUAGES } from '../../utils/constants';
 
 interface AtomsProps {
 }
@@ -25,6 +25,7 @@ const useRovingIndex = (options?: any) => {
   const [activeIndex, setActiveIndex] = useState(initialActiveIndex);
   const targetRefs = useRef<any[]>([]);
   const targets = targetRefs.current;
+  const { changeLanguage } = useAuth();
   const focusNext = () => {
     let newIndex = activeIndex + 1;
     if (newIndex >= targets.length) {
@@ -59,7 +60,10 @@ const useRovingIndex = (options?: any) => {
         handlers.onKeyDown?.(e, { setActiveIndex });
       }
     },
-    onClick: () => {
+    onClick: (event: React.MouseEvent<HTMLDivElement>) => {
+      event.preventDefault();
+      const lang = event.currentTarget.dataset?.language;
+      if (activeIndex !== index && lang) changeLanguage(lang);
       setActiveIndex(index);
     },
   });
@@ -74,6 +78,7 @@ const useRovingIndex = (options?: any) => {
 };
 
 const LanguageMenu = forwardRef(({ focusNext, focusPrevious, ...props }: any, ref) => {
+  const { i18n } = useTranslation();
   const [anchorEl, setAnchorEl] = useState(null);
   const { targets, setActiveIndex, getTargetProps } = useRovingIndex({
     initialActiveIndex: null,
@@ -131,9 +136,9 @@ const LanguageMenu = forwardRef(({ focusNext, focusPrevious, ...props }: any, re
           })}
         >
           <ListItemDecorator sx={{ color: 'inherit' }}>
-            <TranslateIcon fontSize="sm" />
+            <TranslateIcon fontSize="small" />
           </ListItemDecorator>
-          <ListItemContent>Inbox</ListItemContent>
+          <ListItemContent>{LANGUAGE_LIST[i18n.language]}</ListItemContent>
           <KeyboardArrowRightIcon />
         </ListItemButton>
         <PopperUnstyled
@@ -141,6 +146,7 @@ const LanguageMenu = forwardRef(({ focusNext, focusPrevious, ...props }: any, re
           open={open}
           anchorEl={anchorEl}
           disablePortal
+          placement='right'
           keepMounted
         >
           <List
@@ -157,30 +163,18 @@ const LanguageMenu = forwardRef(({ focusNext, focusPrevious, ...props }: any, re
               '--List-decorator-size': '32px',
             }}
           >
-            <ListItem role="none">
-              <ListItemButton role="menuitem" {...getTargetProps(0)}>
-                <ListItemDecorator>
-                  <Apps />
-                </ListItemDecorator>
-                Overview
-              </ListItemButton>
-            </ListItem>
-            <ListItem role="none">
-              <ListItemButton role="menuitem" {...getTargetProps(1)}>
-                <ListItemDecorator>
-                  <Person />
-                </ListItemDecorator>
-                Administration
-              </ListItemButton>
-            </ListItem>
-            <ListItem role="none">
-              <ListItemButton role="menuitem" {...getTargetProps(2)}>
-                <ListItemDecorator>
-                  <FactCheck />
-                </ListItemDecorator>
-                Facts
-              </ListItemButton>
-            </ListItem>
+            {SUPPORTED_LANGUAGES.map((langID, idx) => (
+              <ListItem key={langID} role="none">
+                <ListItemButton 
+                  role="lang-menu"
+                  selected={i18n.language === langID}
+                  data-language={langID}
+                  {...getTargetProps(idx)}
+                >
+                  {LANGUAGE_LIST[langID]}
+                </ListItemButton>
+              </ListItem>
+            ))}
           </List>
         </PopperUnstyled>
       </Box>

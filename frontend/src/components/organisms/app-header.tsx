@@ -52,7 +52,7 @@ export const AppHeader = ({ setDrawerOpen }: OrganismsProp) => {
         startDecorator={<SearchRoundedIcon color="primary" />}
         endDecorator={
           <IconButton variant="outlined" size="sm" color="neutral">
-            <Typography fontWeight="lg" fontSize="sm" textColor="text.tertiary">
+            <Typography fontWeight="lg" fontSize="small" textColor="text.tertiary">
               /
             </Typography>
           </IconButton>

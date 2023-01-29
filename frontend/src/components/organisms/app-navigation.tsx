@@ -35,7 +35,7 @@ export const AppNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
           </IconButton>
         </ListSubheader>
         <List
@@ -45,17 +45,17 @@ export const AppNavigation = () => {
           }}
         >
           <AppNavLink 
-            icon={<FolderOpenIcon fontSize="sm" />}
+            icon={<FolderOpenIcon fontSize="small" />}
             text={t<string>('dashboard')}
             href="/"
           />
           <AppNavLink 
-            icon={<ShareOutlinedIcon fontSize="sm" />}
+            icon={<ShareOutlinedIcon fontSize="small" />}
             text={t<string>('schema')}
             href="/schemas"
           />
           <AppNavLink 
-            icon={<DeleteRoundedIcon fontSize="sm" />}
+            icon={<DeleteRoundedIcon fontSize="small" />}
             text={t<string>('market')}
             href="/market"
           />
@@ -70,7 +70,7 @@ export const AppNavigation = () => {
             color="primary"
             sx={{ '--IconButton-size': '24px', ml: 'auto' }}
           >
-            <KeyboardArrowDownRoundedIcon fontSize="sm" color="primary" />
+            <KeyboardArrowDownRoundedIcon fontSize="small" color="primary" />
           </IconButton>
         </ListSubheader>
         <List
@@ -80,13 +80,13 @@ export const AppNavigation = () => {
           }}
         >
           <AppNavLink 
-            icon={<DeleteRoundedIcon fontSize="sm" />}
+            icon={<DeleteRoundedIcon fontSize="small" />}
             text={t<string>('profile')}
             href="/profile"
           />
           <AppLangMenu />
           <AppListButton 
-            icon={<LogoutIcon fontSize="sm" />}
+            icon={<LogoutIcon fontSize="small" />}
             text={t<string>('logout')}
             onClick={() => {
               console.log('logout');
@@ -101,26 +101,11 @@ export const AppNavigation = () => {
                     width: '10px',
                     height: '10px',
                     borderRadius: '99px',
-                    bgcolor: 'warning.500',
-                  }}
-                />
-              </ListItemDecorator>
-              <ListItemContent>{t<string>('lang')}</ListItemContent>
-            </ListItemButton>
-          </ListItem>
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator>
-                <Box
-                  sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
                     bgcolor: 'success.400',
                   }}
                 />
               </ListItemDecorator>
-              <ListItemContent>{t<string>('logout')}</ListItemContent>
+              <ListItemContent>{t<string>('online')}</ListItemContent>
             </ListItemButton>
           </ListItem>
         </List>
