@@ -33,6 +33,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.1.1",
     "lexical": "^0.7.6",
+    "monaco-editor": "^0.34.1",
     "nanoid": "^4.0.0",
     "react": "^18.2.0",
     "react-device-detect": "^2.2.2",
