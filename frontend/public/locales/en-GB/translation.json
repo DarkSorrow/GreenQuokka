@@ -60,5 +60,15 @@
     "version": "Version",
     "update": "Updated at",
     "format": "Format"
+  },
+  "eschema": {
+    "title": "Schema creation",
+    "subtitle": "Create your data schema with the ui and privacy you need in order to share them later.",
+    "subject": "Name",
+    "version":"Version",
+    "format":"Format",
+    "example": "Forms example from schema",
+    "schema": "Your schema definition",
+    "privacy": "Your Privacy settings"
   }
 }

@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Outlet } from "react-router-dom";
+import { useColorScheme } from '@mui/joy/styles';
 
 import { LayoutRoot } from '../atoms/layout-root';
 import { LayoutHeader } from '../atoms/layout-header';
@@ -15,6 +16,7 @@ interface TemplateProps {
 }
 
 export const AppTemplate = ({ navigation, header, drawerOpen, setDrawerOpen }: TemplateProps) => {
+  const { mode } = useColorScheme();
   
   return (
     <>
@@ -28,7 +30,7 @@ export const AppTemplate = ({ navigation, header, drawerOpen, setDrawerOpen }: T
           gridTemplateColumns: {
             xs: '1fr',
             sm: 'minmax(64px, 200px) minmax(450px, 1fr)',
-            md: 'minmax(160px, 300px) minmax(600px, 1fr) minmax(200px, 220px)',
+            md: 'minmax(160px, 300px) minmax(600px, 1fr)',
           },
           ...(drawerOpen && {
             height: '100vh',
@@ -42,7 +44,12 @@ export const AppTemplate = ({ navigation, header, drawerOpen, setDrawerOpen }: T
         <LayoutSideNav>
           {navigation}
         </LayoutSideNav>
-        <LayoutMain>
+        <LayoutMain sx={(theme) => {
+          if (mode === 'light') {
+            return { backgroundColor: theme.vars.palette.neutral[100] }
+          }
+          return {}
+        }}>
           <Outlet />
         </LayoutMain>
       </LayoutRoot>
