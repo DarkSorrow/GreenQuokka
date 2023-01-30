@@ -11,7 +11,7 @@ import { AppMarketPage } from './app-market';
 import { AppProfilePage } from './app-profile';
 import { AppEditSchemaPage } from './app-edit-schemas';
 
-export const AppPage = () => {
+const AppPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -38,3 +38,5 @@ export const AppPage = () => {
     </Routes>
   );
 }
+
+export default AppPage;

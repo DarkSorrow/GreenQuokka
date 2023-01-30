@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, lazy } from 'react';
 import { BrowserRouter as Router } from "react-router-dom";
 import { CssVarsProvider } from '@mui/joy/styles';
 import CssBaseline from '@mui/joy/CssBaseline';
@@ -7,7 +7,8 @@ import { AuthProvider, useAuth } from './providers/auth';
 import { LoadingSuspense } from './components/atoms/loading-suspense';
 import filesTheme from './styles/theme';
 import { AnonymousPage } from './components/pages/anonymous';
-import { AppPage } from './components/pages/app';
+// import { AppPage } from './components/pages/app';
+const AppPage = lazy(() => import('./components/pages/app'));
 
 const BaseApp = () => {
   const { userToken } = useAuth();
