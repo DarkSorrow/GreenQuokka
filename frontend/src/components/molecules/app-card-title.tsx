@@ -1,14 +1,14 @@
 import Typography from '@mui/joy/Typography';
-import Card from '@mui/joy/Card';
+import Card, { CardProps } from '@mui/joy/Card';
 
-interface AtomsProps {
+type AtomsProps = {
   title: string;
   children: React.ReactNode;
-}
+} & CardProps;
 
-export const AppCardTitle = ({ title, children }: AtomsProps) => {
+export const AppCardTitle = ({ title, children, ...cardProps }: AtomsProps) => {
   return (
-    <Card>
+    <Card {...cardProps}>
       <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
         {title}
       </Typography>

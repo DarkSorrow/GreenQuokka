@@ -4,11 +4,11 @@ interface TemplateProps {
   title: React.ReactNode,
   schemaInfo: React.ReactNode,
   definition: React.ReactNode,
-  iuDisplay: React.ReactNode,
+  privacyDisplay: React.ReactNode,
   forms: React.ReactNode,
 }
 
-export const AppEditSchemaTemplate = ({ title, schemaInfo, definition, iuDisplay, forms } : TemplateProps) => {
+export const AppEditSchemaTemplate = ({ title, schemaInfo, definition, privacyDisplay, forms } : TemplateProps) => {
   return (
     <Grid container spacing={2} sx={{ flexGrow: 1 }}>
       <Grid xs={12}>
@@ -20,11 +20,13 @@ export const AppEditSchemaTemplate = ({ title, schemaInfo, definition, iuDisplay
       <Grid xs={12} md={7}>
         <Stack spacing={2} sx={{ width: '100%' }}>
           {definition}
-          {iuDisplay}
         </Stack>
       </Grid>
       <Grid xs={12} md={5}>
         {forms}
+      </Grid>
+      <Grid xs={12}>
+        {privacyDisplay}
       </Grid>
     </Grid>
   );

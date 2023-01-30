@@ -6,6 +6,8 @@ import validator from "@rjsf/validator-ajv8";
 import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import Editor from "@monaco-editor/react";
+import Stack from '@mui/joy/Stack';
+import Divider from '@mui/joy/Divider';
 
 import { useDebounce } from "../../utils/functions";
 import { useTranslation } from "react-i18next";
@@ -16,12 +18,11 @@ import { AppSchemaInfo } from "../molecules/app-schema-info";
 import { AppCardTitle } from "../molecules/app-card-title";
 
 const schema: RJSFSchema = {
-  title: "Todo",
+  title: "Example",
   type: "object",
-  required: ["title"],
+  required: ["name"],
   properties: {
-    title: {type: "string", title: "Title", default: "A new task"},
-    done: {type: "boolean", title: "Done?", default: false}
+    name: {type: "string", title: "Name", default: ""},
   }
 };
 const log = (type: any) => console.log.bind(console, type);
@@ -64,22 +65,42 @@ export const AppEditSchemaPage = () => {
         format={t<string>('eschema.format')}
       />}
       definition={
-      <AppCardTitle title={t<string>('eschema.schema')}>
+      <AppCardTitle sx={{
+        height: '375px',
+        minHeight: '375px',
+        maxHeight: '600px',
+      }} title={t<string>('eschema.schema')}>
         <Editor
-          height="20vh"
           defaultLanguage="json"
           defaultValue={jsonString}
           onChange={handleEditorChange}
         />
       </AppCardTitle>
       }
-      iuDisplay={
+      privacyDisplay={
       <AppCardTitle title={t<string>('eschema.privacy')}>
-        <div>WorkInProgress: Define private data with groups token?</div>
+        <Stack sx={{
+          height: '340px',
+          minHeight: '340px',
+          maxHeight: '600px',
+          width: '100%',
+        }}
+          direction="row"
+          spacing={1}
+        >
+          <Editor
+            width="50%"
+            defaultLanguage="json"
+            defaultValue={jsonString}
+            onChange={handleEditorChange}
+          />
+          <div>test of right stuff</div>
+        </Stack>
+        
       </AppCardTitle>
       }
       forms={
-        <Card>
+        <Card sx={{ height: '100%' }}>
           <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
             {t<string>('eschema.example')}
           </Typography>
