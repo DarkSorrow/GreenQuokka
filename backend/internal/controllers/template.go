@@ -73,10 +73,6 @@ func (h ApiHandler) RemoveTemplate(ctx *fiber.Ctx) error {
 
 func (h ApiHandler) UpsertTemplate(ctx *fiber.Ctx) error {
 	lid := fromLocal(ctx, "lid")
-	topic := ctx.Params("topic", "")
-	if _, ok := models.TemplateTopics[topic]; !ok {
-		return ctx.Status(400).JSON(fiber.Map{"error": "Topic or Subject not found"})
-	}
 	subjectID := fromLocal(ctx, "sub")
 
 	template := new(models.Template)
@@ -99,11 +95,10 @@ func (h ApiHandler) UpsertTemplate(ctx *fiber.Ctx) error {
 	}
 
 	if !exist {
-		template.Subject = h.TokMana.ItemsID()
 		if err := h.DBManager.Cassandra.Query(
 			"INSERT INTO templates (legal_id,topic,subject,version,created_at) VALUES (?,?,?,?,?);",
 			lid,
-			topic,
+			template.Topic,
 			template.Subject,
 			template.Version,
 			time.Now(),
@@ -114,15 +109,17 @@ func (h ApiHandler) UpsertTemplate(ctx *fiber.Ctx) error {
 	}
 
 	if err := h.DBManager.Cassandra.Query(
-		"INSERT INTO templates (legal_id,topic,subject,version,description,format,active,schema_body,updated_at,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?);",
+		"INSERT INTO templates (legal_id,topic,subject,version,description,format,active,schema_body,schema_rights,contracts,updated_at,updated_by) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);",
 		lid,
-		topic,
+		template.Topic,
 		template.Subject,
 		template.Version,
 		template.Description,
 		template.Format,
 		template.Active,
 		template.SchemaBody,
+		template.SchemaRights,
+		template.Contracts,
 		time.Now(),
 		subjectID,
 	).WithContext(queryStruct.QCtx).Exec(); err != nil {

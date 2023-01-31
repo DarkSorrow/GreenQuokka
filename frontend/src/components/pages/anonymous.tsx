@@ -5,11 +5,12 @@ import { AnonymousTemplate } from '../templates/anonymous';
 import { AnonymousNavigation } from '../organisms/anonymous-navigation';
 import { AnonymousHeader } from '../organisms/anonymous-header';
 // Page part displayed in the main screen
-import { ErrorNotFound } from './error-not-found';
+import { ErrorNotFoundPage } from './error-not-found';
 import { AnonymousHomePage } from './anonymous-home';
 import { AnonymousContactPage } from './anonymous-contact';
 import { AnonymousSignin } from './anonymous-signin';
 import { AnonymousSignup } from './anonymous-signup';
+import { CommonFormPage } from './common-form';
 
 export const AnonymousPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -28,9 +29,10 @@ export const AnonymousPage = () => {
         <Route path="connect" element={<AnonymousSignin />} />
         <Route path="register" element={<AnonymousSignup />} />
         <Route path="contact" element={<AnonymousContactPage />} />
+        <Route path="forms/:company/:topic/:subject/:version" element={<CommonFormPage />} />
         <Route
           path="*"
-          element={<ErrorNotFound />}
+          element={<ErrorNotFoundPage />}
         />
       </Route>
     </Routes>

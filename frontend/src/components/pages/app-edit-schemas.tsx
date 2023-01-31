@@ -7,28 +7,61 @@ import Typography from '@mui/joy/Typography';
 import Card from '@mui/joy/Card';
 import Editor from "@monaco-editor/react";
 import Stack from '@mui/joy/Stack';
-import Divider from '@mui/joy/Divider';
+import Button from '@mui/joy/Button';
+import { useTranslation } from "react-i18next";
 
 import { useDebounce } from "../../utils/functions";
-import { useTranslation } from "react-i18next";
 import { useAuth } from '../../providers/auth';
 import { AppTitle } from "../molecules/app-title";
 import { AppEditSchemaTemplate } from "../templates/app-edit-schemas";
 import { AppSchemaInfo } from "../molecules/app-schema-info";
 import { AppCardTitle } from "../molecules/app-card-title";
+import { Template } from "../../types/Schemas";
 
 const schema: RJSFSchema = {
-  title: "Example",
-  type: "object",
-  required: ["name"],
-  properties: {
-    name: {type: "string", title: "Name", default: ""},
+  "title": "Example",
+  "type": "object",
+  "required": [
+    "name"
+  ],
+  "properties": {
+    "name": {
+      "type": "string",
+      "title": "Name",
+      "default": ""
+    },
+    "lastname": {
+      "type": "string",
+      "title": "LastName",
+      "default": ""
+    },
+    "purchases": {
+      "type": "array",
+      "title": "Pourchases",
+      "items": {
+        "type": "string"
+      }
+    }
   }
 };
 const log = (type: any) => console.log.bind(console, type);
 export const AppEditSchemaPage = () => {
+  const navigate = useNavigate();
+  const { userToken, exp, legalEntity, setOpenSnackbar } = useAuth();
+  const { topic, subject } = useParams();
+  const isEdit = subject !== 'new';
+  const [loading, setLoading] = useState(true);
+  const [submit, setSubmit] = useState(false);
+  const [template, setTemplate] = useState<Template>({
+    topic: topic ?? '',
+    subject: "",
+    version: 1,
+    schema_body: schema,
+    schema_rights: {},
+    contracts: {},
+    format: 'json',
+  })
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(schema, null, 2));
-  const [jsonSchema, setJsonSchema] = useState<RJSFSchema>(schema);
   const [isSchemaError, setSchemaError] = useState(false);
   const { t } = useTranslation();
   const debounceValue = useDebounce(jsonString, 500);
@@ -41,18 +74,41 @@ export const AppEditSchemaPage = () => {
     try {
       const parseSchema = JSON.parse(debounceValue);
       setSchemaError(false);
-      setJsonSchema(parseSchema);
+      setTemplate((prev) => ({
+        ...prev,
+        schema_body: parseSchema
+      }))
     } catch (err) {
       console.log(err);
       setSchemaError(true);
       return;
     }
   }, [debounceValue]);
-  const navigate = useNavigate();
-  const { topic, subject } = useParams();
-  const { userToken, exp, legalEntity, setOpenSnackbar } = useAuth();
-  const isEdit = subject !== 'new';
   
+  const submitForms = async () => {
+    setSubmit(true);
+    try {
+      console.log(template)
+      await fetch('/api/v1/template', {
+        method: 'POST',
+        headers: {
+          "X-Quokka-Token": userToken ?? '',
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...template,
+          schema_body: JSON.stringify(template.schema_body),
+          schema_rights: JSON.stringify(template.schema_rights),
+        }),
+      });
+      setSubmit(false);
+      navigate('/schemas');
+    } catch (err)  {
+      console.log(err);
+      setSubmit(false);
+    }
+  }
+
   return (
     <AppEditSchemaTemplate 
       title={<AppTitle
@@ -60,6 +116,8 @@ export const AppEditSchemaPage = () => {
         subtitle={t<string>('eschema.subtitle')}
       />}
       schemaInfo={<AppSchemaInfo
+        template={template}
+        setTemplate={setTemplate}
         subject={t<string>('eschema.subject')}
         version={t<string>('eschema.version')}
         format={t<string>('eschema.format')}
@@ -94,7 +152,7 @@ export const AppEditSchemaPage = () => {
             defaultValue={jsonString}
             onChange={handleEditorChange}
           />
-          <div>test of right stuff</div>
+          <div>FVM data access control / FVM actors to perform verifications</div>
         </Stack>
         
       </AppCardTitle>
@@ -104,13 +162,16 @@ export const AppEditSchemaPage = () => {
           <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
             {t<string>('eschema.example')}
           </Typography>
-          <Form schema={jsonSchema}
+          <Form schema={template.schema_body}
             validator={validator}
             onChange={log("changed")}
-            onSubmit={log("submitted")}
+            children={<></>}
             onError={log("errors")}
           />
         </Card>
+      }
+      submit={
+        <Button loading={submit} onClick={submitForms} size="lg">{t<string>('create')}</Button>
       }
     />
   );

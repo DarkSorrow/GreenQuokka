@@ -151,7 +151,9 @@ export interface Template {
   topic:      string;
   subject:    string;
   version:    number;
-  schemaBody: any;
+  schema_body: any;
+  schema_rights: any;
+  contracts: Record<string, string>;
   format:     string;
 	updatedBy?: string;
 	updatedAt?: Date;

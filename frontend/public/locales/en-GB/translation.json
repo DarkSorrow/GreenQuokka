@@ -51,6 +51,8 @@
   "noRes": "No results found",
   "cWallet": "Connect wallet",
   "dWallet": "Disconnect {{address}}",
+  "create": "Create",
+  "submit": "Submit",
   "pschema": {
     "title": "Create your data structure",
     "desc": "Defined your data structure in order to create easy tools to get feedback on the user data you store",
@@ -69,6 +71,8 @@
     "subject": "Name",
     "version":"Version",
     "format":"Format",
+    "link": "URL link",
+    "linkDesc": "Link to load the form, used by your clients",
     "example": "Forms example from schema",
     "schema": "Your schema definition",
     "privacy": "Your Privacy settings"

@@ -2,6 +2,7 @@ import { useState, useEffect, MouseEvent } from 'react';
 import { useTranslation, Trans } from "react-i18next";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import { useNavigate } from "react-router-dom";
 import {
   GridActionsCellItem,
@@ -19,7 +20,7 @@ import { AppDataGrid } from '../molecules/app-datagrid';
 import { AppDialogConfirm } from '../organisms/app-dialog-confirm';
 import { Openi18nOption, Template } from '../../types/Schemas';
 import { useAuth } from '../../providers/auth';
-import { boolean } from 'zod';
+import { LoadingSuspense } from '../atoms/loading-suspense';
 
 interface DataLoad {
   loading: boolean;
@@ -45,24 +46,39 @@ export const AppSchemasPage = () => {
     }
   }
 
+  //navigator.clipboard.writeText('Copy this text to clipboard')
   useEffect(() => {
     const init = async () => {
       try {
-        const response = await fetch(`/api/v1/templates/${value}`, {
+        const response = await fetch(`/api/v1/templates/${value?.topics}`, {
           method: 'GET',
           headers: {
             "X-Quokka-Token": userToken ?? '',
           }
         });
         const resp = await response.json();
-        console.log(resp)
         if (response.status === 200) {
-          setData(resp.data);
+          setData({
+            loading: false,
+            data: resp.data.map((data: Template) => ({
+              ...data,
+              id: `${data.subject}-${data.version}-${data.topic}`,
+              link: `${window.location.origin}/forms/${userToken}/${data.topic}/${data.subject}/${data.version}`
+            })),
+          });
         } else {
           console.log(response.status);
+          setData({
+            loading: false,
+            data: [],
+          });
         }
       } catch (err)  {
         console.log(err);
+        setData({
+          loading: false,
+          data: [],
+        });
       }  
     }
     if (value !== null && value.topics) {
@@ -108,6 +124,11 @@ export const AppSchemasPage = () => {
       data-id={params.id}
       label="edit-row"
     />,
+    <GridActionsCellItem
+      icon={<ContentCopyIcon color="info" />}
+      onClick={() => navigator.clipboard.writeText(params.row.link)}
+      label="edit-row"
+    />,
   ];
 
   const columnsDef: GridEnrichedColDef[] = [
@@ -115,6 +136,13 @@ export const AppSchemasPage = () => {
       field: "subject",
       headerName: t<string>("pschema.subject"),
       description: t<string>("pschema.subject"),
+      editable: false,
+      flex: 1,
+    },
+    {
+      field: "link",
+      headerName: t<string>("pschema.link"),
+      description: t<string>("pschema.linkDesc"),
       editable: false,
       flex: 1,
     },
@@ -147,6 +175,10 @@ export const AppSchemasPage = () => {
       flex: 0.8,
     },
   ];
+
+  if (data.loading) {
+    <LoadingSuspense />
+  }
   return (
     <AppSchemasTemplate
       topicsManagement={
@@ -177,7 +209,7 @@ export const AppSchemasPage = () => {
           onClickCreate={openClient}
           columns={columnsDef}
           disableCreate={value !== null}
-          rows={[]}
+          rows={data.data}
           checkboxSelection
         />  
         <AppDialogConfirm

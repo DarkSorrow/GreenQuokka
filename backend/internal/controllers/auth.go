@@ -290,14 +290,17 @@ func (h AuthHandler) LogoutUser(ctx *fiber.Ctx) error {
 }
 
 //https://developers.facebook.com/docs/facebook-login/guides/advanced/manual-flow/
-
-/*
-	Test:
-		- login with wrong email
-		- login with wrong password
-		- login with someone else cookie (token inside)
-		- login with header of someone else legal Entity ID
-
-		- signup with no data in the database
-		- signup with few legal in the legal_pending
-*/
+func (h AuthHandler) GetForms(ctx *fiber.Ctx) error {
+	lid := ctx.Params("entity", "")
+	topic := ctx.Params("topic", "")
+	name := ctx.Params("name", "")
+	version := ctx.Params("version", "")
+	queryStruct := h.DBManager.GetContextPage(ctx)
+	defer queryStruct.Cancel()
+	templates, err := h.DBManager.QueryForm(queryStruct, &lid, &topic, &name, &version)
+	if err != nil {
+		h.Log.Error("list-templates", zap.Error(err), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
+	}
+	return ctx.JSON(fiber.Map{"status": 1, "form": templates})
+}

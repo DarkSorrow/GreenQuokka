@@ -31,4 +31,6 @@ func Priv(app *fiber.App, logger *zap.Logger, tokenManager *services.TokenManage
 	r.Post("/signin", h.AuthSignin, h.LoginUser)
 	r.Post("/signup", h.AuthSignup, h.LoginUser)
 	r.Get("/socb/:social", h.AuthCBSocial, h.LoginUser) // social login callback
+
+	r.Get("/forms/:entity/:topic/:name/:version", h.GetForms)
 }
