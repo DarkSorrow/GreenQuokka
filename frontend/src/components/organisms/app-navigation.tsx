@@ -20,6 +20,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import { AppNavLink } from '../atoms/app-nav-link';
 import { AppListButton } from '../atoms/app-list-button';
 import { AppLangMenu } from '../atoms/app-lang-menu';
+import { AppWalletConnect } from '../molecules/app-wallet-connect';
 import { useAuth } from '../../providers/auth';
 
 
@@ -82,6 +83,7 @@ export const AppNavigation = () => {
             '& .JoyListItemButton-root': { p: '8px' },
           }}
         >
+          <AppWalletConnect />
           <AppNavLink 
             icon={<AccountCircleIcon fontSize="small" />}
             text={t<string>('profile')}
@@ -97,21 +99,6 @@ export const AppNavigation = () => {
               navigate('/');
             }}
           />
-          <ListItem>
-            <ListItemButton>
-              <ListItemDecorator>
-                <Box
-                  sx={{
-                    width: '10px',
-                    height: '10px',
-                    borderRadius: '99px',
-                    bgcolor: 'success.400',
-                  }}
-                />
-              </ListItemDecorator>
-              <ListItemContent>{t<string>('online')}</ListItemContent>
-            </ListItemButton>
-          </ListItem>
         </List>
       </ListItem>
     </List>

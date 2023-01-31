@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { Routes, Route } from "react-router-dom";
+import { WagmiConfig, createClient } from 'wagmi'
+import { getDefaultProvider } from 'ethers'
 
 import { AppHeader } from '../organisms/app-header';
 import { AppNavigation } from '../organisms/app-navigation';
@@ -11,31 +13,38 @@ import { AppMarketPage } from './app-market';
 import { AppProfilePage } from './app-profile';
 import { AppEditSchemaPage } from './app-edit-schemas';
 
+const client = createClient({
+  autoConnect: true,
+  provider: getDefaultProvider(),
+})
+
 const AppPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <Routes>
-      <Route path="/" element={
-          <AppTemplate
-            header={<AppHeader setDrawerOpen={setDrawerOpen} />}
-            navigation={<AppNavigation />}
-            drawerOpen={drawerOpen}
-            setDrawerOpen={setDrawerOpen}
+    <WagmiConfig client={client}>
+      <Routes>
+        <Route path="/" element={
+            <AppTemplate
+              header={<AppHeader setDrawerOpen={setDrawerOpen} />}
+              navigation={<AppNavigation />}
+              drawerOpen={drawerOpen}
+              setDrawerOpen={setDrawerOpen}
+            />
+          }>
+          <Route index element={<AppHomePage />} />
+          <Route path="dashboard/*" element={<AppHomePage />} />
+          <Route path="schemas/*" element={<AppSchemasPage />} />
+          <Route path="schemas/topic/:topic/:subject" element={<AppEditSchemaPage />} />
+          <Route path="market" element={<AppMarketPage />} />
+          <Route path="profile" element={<AppProfilePage />} />
+          <Route
+            path="*"
+            element={<ErrorNotFound />}
           />
-        }>
-        <Route index element={<AppHomePage />} />
-        <Route path="dashboard/*" element={<AppHomePage />} />
-        <Route path="schemas/*" element={<AppSchemasPage />} />
-        <Route path="schemas/topic/:topic/:subject" element={<AppEditSchemaPage />} />
-        <Route path="market" element={<AppMarketPage />} />
-        <Route path="profile" element={<AppProfilePage />} />
-        <Route
-          path="*"
-          element={<ErrorNotFound />}
-        />
-      </Route>
-    </Routes>
+        </Route>
+      </Routes>
+    </WagmiConfig>
   );
 }
 

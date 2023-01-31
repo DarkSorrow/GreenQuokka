@@ -32,15 +32,14 @@ export const AnonymousSignup = () => {
         body: JSON.stringify(values),
       });
       const resp = await response.json();
-      console.log(resp)
       if (response.status === 200) {
         await signIn(resp.entities, resp.exp);
         navigate('/');
       } else {
-        console.log(`error.api.${resp.error}`);
+        setError(`error.api.${resp.error}`);
       }
     } catch (err) {
-      console.log('error.api.Unknown');
+      setError('error.api.Unknown');
     }
   }
 
