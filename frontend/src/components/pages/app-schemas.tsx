@@ -9,7 +9,6 @@ import {
   GridRowParams,
   GridEnrichedColDef,
   GridColumnHeaderParams,
-  GridRenderCellParams,
 } from "@mui/x-data-grid";
 import Card from '@mui/joy/Card';
 import Typography from '@mui/joy/Typography';

@@ -9,6 +9,7 @@ import Editor from "@monaco-editor/react";
 import Stack from '@mui/joy/Stack';
 import Button from '@mui/joy/Button';
 import { useTranslation } from "react-i18next";
+import Divider from '@mui/joy/Divider';
 
 import { useDebounce } from "../../utils/functions";
 import { useAuth } from '../../providers/auth';
@@ -16,7 +17,9 @@ import { AppTitle } from "../molecules/app-title";
 import { AppEditSchemaTemplate } from "../templates/app-edit-schemas";
 import { AppSchemaInfo } from "../molecules/app-schema-info";
 import { AppCardTitle } from "../molecules/app-card-title";
-import { Template } from "../../types/Schemas";
+import { AppFieldPrivacy } from "../molecules/app-field-privacy";
+import { AppFieldContract } from "../molecules/app-field-contracts";
+import { Template, PrivacyRule, PrivacySchema } from "../../types/Schemas";
 
 const schema: RJSFSchema = {
   "title": "Example",
@@ -44,12 +47,17 @@ const schema: RJSFSchema = {
     }
   }
 };
+
 const log = (type: any) => console.log.bind(console, type);
 export const AppEditSchemaPage = () => {
   const navigate = useNavigate();
   const { userToken, exp, legalEntity, setOpenSnackbar } = useAuth();
   const { topic, subject } = useParams();
   const isEdit = subject !== 'new';
+  const [privacyFields, setPrivacyFields] = useState<PrivacySchema>({
+    fields: {},
+    modified: new Date(),
+  });
   const [loading, setLoading] = useState(true);
   const [submit, setSubmit] = useState(false);
   const [template, setTemplate] = useState<Template>({
@@ -72,7 +80,23 @@ export const AppEditSchemaPage = () => {
   };
   useEffect(() => {
     try {
-      const parseSchema = JSON.parse(debounceValue);
+      const parseSchema: RJSFSchema = JSON.parse(debounceValue);
+      
+      // Create new item only if other don't exist
+      // don't go in subelement yet but make recursive check on final version
+      if (parseSchema.properties) {
+        const copyPrivacy: Record<string, PrivacyRule> = {};
+        //let modified = false;
+        Object.keys(parseSchema.properties).forEach((propertyKey) => {
+          copyPrivacy[propertyKey] = (privacyFields.fields[propertyKey]) ? privacyFields.fields[propertyKey] : PrivacyRule.Confidential;
+        });
+        //if (modified) {
+          setPrivacyFields({
+            fields: copyPrivacy,
+            modified: new Date(),
+          });
+        //}
+      }
       setSchemaError(false);
       setTemplate((prev) => ({
         ...prev,
@@ -137,22 +161,18 @@ export const AppEditSchemaPage = () => {
       }
       privacyDisplay={
       <AppCardTitle title={t<string>('eschema.privacy')}>
-        <Stack sx={{
-          height: '340px',
-          minHeight: '340px',
-          maxHeight: '600px',
-          width: '100%',
-        }}
+        <Stack
           direction="row"
+          divider={<Divider orientation="vertical" />}
           spacing={1}
         >
-          <Editor
-            width="50%"
-            defaultLanguage="json"
-            defaultValue={jsonString}
-            onChange={handleEditorChange}
+          <AppFieldPrivacy
+            privacySchema={privacyFields}
+            setPrivacySchema={setPrivacyFields}
           />
-          <div>FVM data access control / FVM actors to perform verifications</div>
+          <AppFieldContract
+            privacySchema={privacyFields}
+          />
         </Stack>
         
       </AppCardTitle>

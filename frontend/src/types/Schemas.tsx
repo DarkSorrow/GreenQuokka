@@ -159,3 +159,14 @@ export interface Template {
 	updatedAt?: Date;
   createdAt?: Date;
 }
+
+export enum PrivacyRule {
+  Confidential = 0, // Access highly restricted, allowed only with zero knowledge actions
+  Internal = 1, // Access restricted to the company usage only (have the main contract of the company)
+  Restricted = 2, // Access restricted to people owning a special nft sold by the company
+}
+
+export interface PrivacySchema {
+  fields: Record<string, PrivacyRule>;
+  modified: Date;
+}
