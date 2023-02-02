@@ -18,8 +18,8 @@ import { AppEditSchemaTemplate } from "../templates/app-edit-schemas";
 import { AppSchemaInfo } from "../molecules/app-schema-info";
 import { AppCardTitle } from "../molecules/app-card-title";
 import { AppFieldPrivacy } from "../molecules/app-field-privacy";
-import { AppFieldContract } from "../molecules/app-field-contracts";
-import { Template, PrivacyRule, PrivacySchema } from "../../types/Schemas";
+import { AppFieldContract } from "../organisms/app-field-contracts";
+import { Template, PrivacyRule, PrivacySchema, ContractType, ContractData } from "../../types/Schemas";
 
 const schema: RJSFSchema = {
   "title": "Example",
@@ -68,7 +68,20 @@ export const AppEditSchemaPage = () => {
     schema_rights: {},
     contracts: {},
     format: 'json',
-  })
+  });
+  const [listContract, setListContract] = useState<ContractData[]>([{
+    dataUsed: [],
+    formula: {},
+    type: ContractType.STORAGE,
+    name: 'Storage',
+    contract: '',
+    isError: false,
+    errors: [],
+    price: 0,
+    share: 0,
+    qty: 0,
+    currency: "FIL",
+  }]);
   const [jsonString, setJsonString] = useState<string>(JSON.stringify(schema, null, 2));
   const [isSchemaError, setSchemaError] = useState(false);
   const { t } = useTranslation();
@@ -119,10 +132,12 @@ export const AppEditSchemaPage = () => {
           "X-Quokka-Token": userToken ?? '',
           "Content-Type": "application/json",
         },
+        // Make a loop to change contract type
+        // Maybe store storage and contracts in different area?
         body: JSON.stringify({
           ...template,
           schema_body: JSON.stringify(template.schema_body),
-          schema_rights: JSON.stringify(template.schema_rights),
+          schema_rights: JSON.stringify(privacyFields),
         }),
       });
       setSubmit(false);
@@ -172,6 +187,8 @@ export const AppEditSchemaPage = () => {
           />
           <AppFieldContract
             privacySchema={privacyFields}
+            listContract={listContract}
+            setListContract={setListContract}
           />
         </Stack>
         

@@ -6,9 +6,15 @@ import { useParams, useNavigate } from "react-router-dom";
 import Typography from '@mui/joy/Typography';
 import { useTranslation } from "react-i18next";
 import Card from '@mui/joy/Card';
+import Grid from '@mui/joy/Grid';
 import Button from '@mui/joy/Button';
+import AspectRatio from '@mui/joy/AspectRatio';
+import CardOverflow from '@mui/joy/CardOverflow';
+import Box from '@mui/joy/Box';
+import Divider from '@mui/joy/Divider';
 
 import { CommonFormTemplate } from "../templates/common-form";
+import { AnonymousWalletConnect } from "../molecules/anonymous-wallet-connect";
 import { LoadingSuspense } from "../atoms/loading-suspense";
 import { ErrorNotFound } from "../molecules/error-sheet";
 import { Template } from "../../types/Schemas";
@@ -23,6 +29,7 @@ interface Data {
 
 const log = (type: any) => console.log.bind(console, type);
 export const CommonFormPage = () => {
+  let yourForm: any;
   const { t } = useTranslation();
   const [data, setData] = useState<Data>({
     loading: true,
@@ -80,17 +87,53 @@ export const CommonFormPage = () => {
   return (
     <CommonFormTemplate 
       forms={<Card sx={{ height: '100%' }}>
-      <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
-        {t<string>('eschema.example')}
-      </Typography>
       <Form schema={data.schema}
         validator={validator}
-        children={<Button type="submit" size="lg">{t<string>('submit')}</Button>}
+        children={<></>}
         onError={log("errors")}
         onSubmit={handleSubmit}
+        ref={(form) => {yourForm = form;}}
       />
     </Card>}
-      submit={<div>Submit page of page</div>}
+      submit={<Card sx={{ 
+        position: 'fixed',
+        width: '350px'
+      }}>
+        <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
+          {t<string>('eschema.example')}
+        </Typography>
+        <Grid container spacing={1}>
+          <Grid xs={12}>
+            {t<string>('forms.wallet')}
+          </Grid>
+          <Grid xs={12}>
+            <AnonymousWalletConnect />
+          </Grid>
+          <Grid xs={12}>
+            <Button fullWidth onClick={() => yourForm.submit()}>{t<string>('submit')}</Button>
+          </Grid>
+        </Grid>
+        <Divider />
+        <CardOverflow
+          variant="soft"
+          sx={{
+            display: 'flex',
+            gap: 1.5,
+            py: 1.5,
+            px: 'var(--Card-padding)',
+            bgcolor: 'background.level1',
+          }}
+        >
+          <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+            xk Wallet replied
+          </Typography>
+          <Divider orientation="vertical" />
+          <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+            Last modified
+          </Typography>
+        </CardOverflow>
+
+      </Card>}
     />
   );
 }

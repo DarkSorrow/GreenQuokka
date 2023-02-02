@@ -170,3 +170,23 @@ export interface PrivacySchema {
   fields: Record<string, PrivacyRule>;
   modified: Date;
 }
+
+export enum ContractType {
+  STORAGE = 0,
+  COMPUTE = 1,
+  ACCESS = 2,
+}
+
+export interface ContractData {
+  dataUsed: string[];
+  formula: Record<string,string>;
+  name: string;
+  type: ContractType;
+  contract: string;
+  isError: boolean;
+  errors: string[];
+  price: number;
+  share: number;
+  qty: number;
+  currency: string;
+}

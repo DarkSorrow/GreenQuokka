@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Routes, Route } from "react-router-dom";
-import { WagmiConfig, createClient } from 'wagmi'
-import { getDefaultProvider } from 'ethers'
 
 import { AppHeader } from '../organisms/app-header';
 import { AppNavigation } from '../organisms/app-navigation';
@@ -14,16 +12,11 @@ import { AppProfilePage } from './app-profile';
 import { AppEditSchemaPage } from './app-edit-schemas';
 import { CommonFormPage } from './common-form';
 
-const client = createClient({
-  autoConnect: true,
-  provider: getDefaultProvider(),
-})
 
 const AppPage = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
-    <WagmiConfig client={client}>
       <Routes>
         <Route path="/" element={
             <AppTemplate
@@ -46,7 +39,6 @@ const AppPage = () => {
           />
         </Route>
       </Routes>
-    </WagmiConfig>
   );
 }
 

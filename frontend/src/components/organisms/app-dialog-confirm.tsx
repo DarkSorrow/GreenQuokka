@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import DialogTitle from "@mui/material/DialogTitle";
-import Dialog, { DialogProps } from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import Typography from '@mui/joy/Typography';
 
+import Stack from '@mui/joy/Stack';
 import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Button from '@mui/joy/Button';
@@ -50,22 +47,23 @@ export const AppDialogConfirm = ({ id, title, onConfirm, onClose, open, children
           {title}
         </Typography>
         {children}
-        <Button
-          onClick={onClose}
-          color="primary"
-          data-testid={`dialog-${id}-close`}
-        >
-          {t<string>('ndel')}
-        </Button>
-        <Button
-          data-testid={`dialog-${id}-confirm`}
-          loading={isLoading}
-          color="danger"
-          onClick={handleConfirm}
-        >
-          {t<string>('ydel')}
-        </Button>
-      
+        <Stack spacing={1} direction="row">
+          <Button
+            onClick={onClose}
+            color="primary"
+            data-testid={`dialog-${id}-close`}
+          >
+            {t<string>('ndel')}
+          </Button>
+          <Button
+            data-testid={`dialog-${id}-confirm`}
+            loading={isLoading}
+            color="danger"
+            onClick={handleConfirm}
+          >
+            {t<string>('ydel')}
+          </Button>
+        </Stack>
       </ModalDialog>
     </Modal>
   );

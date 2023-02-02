@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react';
 import Typography from '@mui/joy/Typography';
 import { PrivacyRule, PrivacySchema } from "../../types/Schemas";
 import Stack from '@mui/joy/Stack';
@@ -6,88 +6,40 @@ import CheckIcon from '@mui/icons-material/Check';
 import Alert from '@mui/joy/Alert';
 import Box from '@mui/joy/Box';
 import Chip from '@mui/joy/Chip';
+import Grid from '@mui/joy/Grid';
 import Tabs from '@mui/joy/Tabs';
 import TabList from '@mui/joy/TabList';
 import Tab, { tabClasses } from '@mui/joy/Tab';
 import TabPanel from '@mui/joy/TabPanel';
 import Checkbox from '@mui/joy/Checkbox';
 import Button from '@mui/joy/Button';
+import Input from '@mui/joy/Input';
 import { useTranslation } from "react-i18next";
-import { InputPrice } from '../atoms/inpuit-price';
+
+import { InputPrice } from '../atoms/input-price';
+import { CheckboxChip } from '../molecules/checkbox-chips';
+import { FieldContractStorage } from '../molecules/field-contract-storage';
+import { FieldContractType } from '../molecules/field-contract-types';
+import { ContractData, ContractType } from '../../types/Schemas';
+
 interface MoleculeProps {
   privacySchema: PrivacySchema;
+  listContract: ContractData[];
+  setListContract: Dispatch<SetStateAction<ContractData[]>>;
 }
 
-interface ContractData {
-  dataUsed: string[];
-  formula: Record<string,string>;
-  name: string;
-  contract: string;
-  isError: boolean;
-  errors: string[];
-  price: number;
-  currency: string;
-}
 
-interface MoleculeCheckChipProps {
-  label: string;
-  available: string[];
-  fields: string[];
-  idx: number;
-  setChosen: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export const CheckboxChip = ({ label, available, idx, setChosen, fields }: MoleculeCheckChipProps) => {
-  console.log(available);
-  return (
-    <Box sx={{ display: 'flex', gap: 1, alignItems: 'center' }}>
-      <Box
-        role="group"
-        aria-labelledby="fav-movie"
-        sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}
-      >
-        {available.map((name) => {
-          const checked = fields.includes(name);
-          return (
-            <Chip
-              key={name}
-              variant={checked ? 'soft' : 'plain'}
-              color={checked ? 'primary' : 'neutral'}
-              startDecorator={
-                checked && <CheckIcon sx={{ zIndex: 1, pointerEvents: 'none' }} />
-              }
-            >
-              <Checkbox
-                variant="outlined"
-                color={checked ? 'primary' : 'neutral'}
-                disableIcon
-                overlay
-                label={name}
-                checked={checked}
-                slotProps={{
-                  input: {
-                    "data-name": name,
-                    "data-index": idx
-                  }
-                }}
-                onChange={setChosen}
-              />
-            </Chip>
-          );
-        })}
-      </Box>
-    </Box>
-  );
-}
-
-export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
+export const AppFieldContract = ({ privacySchema, listContract, setListContract }: MoleculeProps) => {
   const { t } = useTranslation();
   const [available, setAvailable] = useState<string[]>([]);
-  const [listContract, setListContract] = useState<ContractData[]>([]);
+  
   const [index, setIndex] = React.useState(0);
   useEffect(() => {
-    const newAvailable = Object.keys(privacySchema.fields).filter((field) => privacySchema.fields[field] === PrivacyRule.Restricted);
+    const newAvailable = Object.keys(privacySchema.fields).filter(
+      (field) => privacySchema.fields[field] === PrivacyRule.Restricted
+    );
     setAvailable(newAvailable);
+    // Remove the fields from contracts 
   }, [privacySchema.modified])
 
   const addContract = () => {
@@ -95,27 +47,33 @@ export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
     const contract: ContractData = {
       dataUsed: [],
       formula: {},
-      name: `Contract ${listContract.length+1}`,
+      type: ContractType.ACCESS,
+      name: `Contract ${listContract.length}`,
       contract: '',
       isError: false,
       errors: [],
       price: 0,
+      share: 0,
+      qty: 0,
       currency: "FIL",
     }
     setListContract((prev) => ([...prev, contract]));
     setIndex(idx);
   }
 
+  const setContract = (contract: ContractData, idx: number) => {
+    const oldContract = [...listContract];
+    oldContract[idx] = contract;
+    setListContract(oldContract);
+  }
+
   const setChosen = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.dataset && event.target.dataset.index !== undefined && event.target.dataset.name) {
       const idx = parseInt(event.target.dataset.index, 10);
       let oldContract = [...listContract];
-      console.log(oldContract);
       let dataUsed;
       if (event.target.checked === false) {
-        console.log('to remove:', event.target.dataset.name, oldContract[idx].dataUsed)
         dataUsed = oldContract[idx].dataUsed.filter((used) => event.target.dataset.name !== used)
-        console.log("remove", dataUsed)
       } else {
         dataUsed = [...oldContract[idx].dataUsed, event.target.dataset.name]
       }
@@ -137,9 +95,7 @@ export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
     <Typography level="body2">
       {t<string>('privacy.addDesc')}
     </Typography>
-    {(listContract.length === 0) ?
-      <Alert variant="soft">{t<string>('privacy.none')}</Alert>
-      :
+    {
       <Box
         sx={{
           bgcolor: 'background.body',
@@ -191,14 +147,14 @@ export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
             {listContract.map((contract, idx) => (
               <Tab key={`${contract.name}-tab`}>
                 {contract.name}
-                <Chip
+                {(contract.type !== ContractType.STORAGE) && <Chip
                   size="sm"
                   variant="soft"
                   color={index === idx ? 'primary' : 'neutral'}
                   sx={{ ml: 1 }}
                 >
                   {contract.dataUsed.length}
-                </Chip>
+                </Chip>}
               </Tab>
             ))}
           </TabList>
@@ -217,24 +173,26 @@ export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
               background: 'var(--bg)',
               boxShadow: '0 0 0 100vmax var(--bg)',
               clipPath: 'inset(0 -100vmax)',
-              height: '300px',
-              px: 4,
-              py: 2,
+              minHeight: '300px',
+              px: 1,
+              py: 1,
             })}
           >
             {listContract.map((contract, idx) => (
-              <TabPanel key={`${contract.name}-panel`} value={idx}>
-                <Stack spacing={1}>
-                <CheckboxChip
-                  label={t<string>('privacy.available')}
-                  available={available}
-                  idx={idx}
-                  fields={contract.dataUsed}
-                  setChosen={setChosen}
-                />
-                <InputPrice />
-                </Stack>
-              </TabPanel>
+              (contract.type === ContractType.STORAGE) ? <FieldContractStorage
+                key={`${contract.name}-field`}
+                idx={idx}
+                contract={contract}
+                setContract={setContract}
+              /> : <FieldContractType
+                key={`${contract.name}-field`}
+                idx={idx}
+                contract={contract}
+                available={available}
+                setChosen={setChosen}
+                setContract={setContract}
+              />
+              
             ))}
           </Box>
         </Tabs>
@@ -243,8 +201,40 @@ export const AppFieldContract = ({ privacySchema }: MoleculeProps) => {
 
   </Stack>);
 }
-
 /*
+<TabPanel key={`${contract.name}-panel`} value={idx}>
+                <Grid container spacing={1} sx={{ flexGrow: 1 }}>
+                  <Grid xs={12}>
+                    <CheckboxChip
+                      label={t<string>('privacy.available')}
+                      available={available}
+                      idx={idx}
+                      fields={contract.dataUsed}
+                      setChosen={setChosen}
+                    />
+                  </Grid>
+                  <Grid xs={12} md={6}>
+                    <Input placeholder="name" />
+                  </Grid>
+                  <Grid xs={12} md={6}>
+                    <InputPrice />
+                  </Grid>
+                  <Grid xs={12} md={6}>
+                    <Input placeholder="Contract template" />
+                  </Grid>
+                  <Grid xs={12} md={6}>
+                    <Input placeholder="Share to users [%]" />
+                  </Grid>
+                  <Grid xs={12} md={6}>
+                    <Input placeholder="Group Quantities" />
+                  </Grid>
+                </Grid>
+              </TabPanel>
+*/
+/*
+(listContract.length === 0) ?
+      <Alert variant="soft">{t<string>('privacy.none')}</Alert>
+      :
 {listContract.map((contract, idx) => (
               <TabPanel key={`${contract.name}-panel`} value={idx}>
                 <Typography

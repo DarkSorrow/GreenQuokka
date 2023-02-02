@@ -85,8 +85,25 @@
     "confDesc": "Confidential: Will require specific access or only work with zero knowledge to get info on this data",
     "intDesc": "Internal only: will be available to the company requesting the data and providing the information",
     "restDesc": "Restricted: will be given to people holding group token who are allowed access",
-    "add": "Create access contract",
+    "add": "Add contract",
     "addDesc": "Those contract will create AcessToken that you can sell in the market place in order to let others use your restricted data. Each nft will hold its own information and internal / confidential can be used to create statistics if the condition are satisfied",
-    "none": "No contract created"
+    "none": "No contract created",
+    "available": "Select fields the contract can view",
+    "name": "Contract's name",
+    "type": "Contract's type",
+    "address": "Contract's address",
+    "price": "Access price",
+    "fund": "Fund the deal",
+    "share": "User revenu share",
+    "amount": "Amount of minted access token"
+  },
+  "contractType": {
+    "0": "Storage",
+    "1": "Compute power",
+    "2": "Access groups"
+  },
+  "cfDel": "Are you sure you want to delete \"{{name}}\"?",
+  "forms": {
+    "wallet": "This forms rewards you when your data are used in analytics contracts. Connect your wallet to sign your request and receive rewards when your data are used!"
   }
 }

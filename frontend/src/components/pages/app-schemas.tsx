@@ -103,13 +103,13 @@ export const AppSchemasPage = () => {
   }
   const renderRowActions = (params: GridRowParams) => [
     <GridActionsCellItem
-      icon={<DeleteIcon color="secondary" />}
+      icon={<DeleteIcon color="error" />}
       onClick={() => {
         setCfDel({
           open: true,
-          i18nMessage: 'app:cfDel',
+          i18nMessage: 'cfDel',
           i18nObject: {
-            name: params.row.name,
+            name: params.row.subject,
             id: params.id,
           }
         });
