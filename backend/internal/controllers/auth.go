@@ -5,6 +5,7 @@ import (
 	"crypto/subtle"
 	"hash"
 	"net/mail"
+	"net/url"
 	"os"
 	"strings"
 	"time"
@@ -297,9 +298,14 @@ func (h AuthHandler) GetForms(ctx *fiber.Ctx) error {
 	version := ctx.Params("version", "")
 	queryStruct := h.DBManager.GetContextPage(ctx)
 	defer queryStruct.Cancel()
-	templates, err := h.DBManager.QueryForm(queryStruct, &lid, &topic, &name, &version)
+	decoded, decErr := url.QueryUnescape(name)
+	if decErr != nil {
+		h.Log.Error("get-forms", zap.Error(decErr), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
+	}
+	templates, err := h.DBManager.QueryForm(queryStruct, &lid, &topic, &decoded, &version)
 	if err != nil {
-		h.Log.Error("list-templates", zap.Error(err), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		h.Log.Error("get-forms", zap.Error(err), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
 		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
 	}
 	return ctx.JSON(fiber.Map{"status": 1, "form": templates})

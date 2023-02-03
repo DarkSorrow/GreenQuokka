@@ -75,7 +75,8 @@
     "linkDesc": "Link to load the form, used by your clients",
     "example": "Forms example from schema",
     "schema": "Your schema definition",
-    "privacy": "Your Privacy settings"
+    "privacy": "Your Privacy settings",
+    "form": "Formular validation"
   },
   "privacy": {
     "confidential": "Confidential",
@@ -104,6 +105,12 @@
   },
   "cfDel": "Are you sure you want to delete \"{{name}}\"?",
   "forms": {
-    "wallet": "This forms rewards you when your data are used in analytics contracts. Connect your wallet to sign your request and receive rewards when your data are used!"
+    "wallet": "This forms rewards you when your data are used in analytics contracts. Connect your wallet to sign your request and receive rewards when your data are used!",
+    "0": "{{length}} Hidden",
+    "1": "{{length}} Company only",
+    "2": "{{length}} Marketing",
+    "confidential": "Those data can't be accessed by the company, they will be encrypted and only some formula will be made to use those data. For exemple age > 10",
+    "internal": "Those data can be accessed by the company only, they won't be shared to anyone else",
+    "restricted": "Those data can be used for marketing purpose and access given to third party company. While accessing those data and if your wallet was used you may receive some rewards"
   }
 }

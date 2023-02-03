@@ -153,7 +153,7 @@ export interface Template {
   version:    number;
   schema_body: any;
   schema_rights: any;
-  contracts: Record<string, string>;
+  contracts: string;
   format:     string;
 	updatedBy?: string;
 	updatedAt?: Date;

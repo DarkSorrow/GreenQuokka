@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import { Outlet } from "react-router-dom";
+import { useColorScheme } from '@mui/joy/styles';
 
 import { LayoutRoot } from '../atoms/layout-root';
 import { LayoutHeader } from '../atoms/layout-header';
@@ -14,6 +15,7 @@ interface TemplateProps {
 }
 
 export const AnonymousTemplate = ({ navigation, header, drawerOpen, setDrawerOpen }: TemplateProps) => {
+  const { mode } = useColorScheme();
 
   return (
     <>
@@ -36,7 +38,12 @@ export const AnonymousTemplate = ({ navigation, header, drawerOpen, setDrawerOpe
         <LayoutHeader>
           {header}
         </LayoutHeader>
-        <LayoutMain>
+        <LayoutMain sx={(theme) => {
+          if (mode === 'light') {
+            return { backgroundColor: theme.vars.palette.neutral[100] }
+          }
+          return {}
+        }}>
           <Outlet />
         </LayoutMain>
       </LayoutRoot>

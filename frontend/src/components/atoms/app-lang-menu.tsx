@@ -155,6 +155,7 @@ const LanguageMenu = forwardRef(({ focusNext, focusPrevious, ...props }: any, re
               '--List-padding': '4px',
               '--List-divider-gap': '4px',
               '--List-decorator-size': '32px',
+              zIndex: 1000
             }}
           >
             {SUPPORTED_LANGUAGES.map((langID, idx) => (

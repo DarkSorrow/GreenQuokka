@@ -2,22 +2,22 @@ import { useEffect, useState } from "react";
 import Form from "@rjsf/mui";
 import { RJSFSchema } from "@rjsf/utils";
 import validator from "@rjsf/validator-ajv8";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Typography from '@mui/joy/Typography';
 import { useTranslation } from "react-i18next";
 import Card from '@mui/joy/Card';
 import Grid from '@mui/joy/Grid';
 import Button from '@mui/joy/Button';
-import AspectRatio from '@mui/joy/AspectRatio';
+import Badge from '@mui/joy/Badge';
 import CardOverflow from '@mui/joy/CardOverflow';
-import Box from '@mui/joy/Box';
+import Tooltip from '@mui/joy/Tooltip';
 import Divider from '@mui/joy/Divider';
 
 import { CommonFormTemplate } from "../templates/common-form";
 import { AnonymousWalletConnect } from "../molecules/anonymous-wallet-connect";
 import { LoadingSuspense } from "../atoms/loading-suspense";
 import { ErrorNotFound } from "../molecules/error-sheet";
-import { Template } from "../../types/Schemas";
+import { Template, PrivacyRule, ContractData } from "../../types/Schemas";
 
 interface Data {
   loading: boolean;
@@ -25,6 +25,9 @@ interface Data {
   msg: string;
   template?: Template;
   schema: RJSFSchema;
+  fields: Record<PrivacyRule, string[]>;
+  privacy: Record<string, PrivacyRule>;
+  contracts: ContractData[];
 }
 
 const log = (type: any) => console.log.bind(console, type);
@@ -35,7 +38,14 @@ export const CommonFormPage = () => {
     loading: true,
     error: false,
     msg: '',
-    schema: {}
+    schema: {},
+    fields: {
+      [PrivacyRule.Confidential]: [],
+      [PrivacyRule.Internal]: [],
+      [PrivacyRule.Restricted]: [],
+    },
+    privacy: {},
+    contracts: [],
   });
   const { company, topic, subject, version } = useParams();
 
@@ -48,12 +58,24 @@ export const CommonFormPage = () => {
         const resp = await response.json();
         if (response.status === 200) {
           const template: Template = resp.form;
+          const privacy: Record<string, PrivacyRule> = JSON.parse(template.schema_rights);
+          const fields: Record<PrivacyRule, string[]> = {
+            [PrivacyRule.Confidential]: [],
+            [PrivacyRule.Internal]: [],
+            [PrivacyRule.Restricted]: [],
+          };
+          Object.keys(privacy).forEach((keys) => {
+            fields[privacy[keys]].push(keys);
+          })
           setData({
             loading: false,
             error: false,
             template: resp.form,
             msg: '',
-            schema: JSON.parse(template.schema_body)
+            schema: JSON.parse(template.schema_body),
+            privacy,
+            fields,
+            contracts: JSON.parse(template.contracts),
           });
           return;
         }
@@ -62,6 +84,13 @@ export const CommonFormPage = () => {
           error: true,
           msg: 'status.error',
           schema: {},
+          privacy: {},
+          fields: {
+            [PrivacyRule.Confidential]: [],
+            [PrivacyRule.Internal]: [],
+            [PrivacyRule.Restricted]: [],
+          },
+          contracts: [],
         });
         return;
       } catch (err) {
@@ -71,6 +100,13 @@ export const CommonFormPage = () => {
           error: true,
           msg: 'req.error',
           schema: {},
+          privacy: {},
+          fields: {
+            [PrivacyRule.Confidential]: [],
+            [PrivacyRule.Internal]: [],
+            [PrivacyRule.Restricted]: [],
+          },
+          contracts: [],
         })
       }
     };
@@ -99,9 +135,9 @@ export const CommonFormPage = () => {
         position: 'fixed',
         width: '350px'
       }}>
-        <Typography level="h2" fontSize="lg" id="card-description" mb={0.5}>
-          {t<string>('eschema.example')}
-        </Typography>
+        <Badge badgeContent={`v${version}`}>
+          <Typography level="h2" fontSize="lg" mb="1.5">{subject}</Typography>
+        </Badge>
         <Grid container spacing={1}>
           <Grid xs={12}>
             {t<string>('forms.wallet')}
@@ -124,13 +160,23 @@ export const CommonFormPage = () => {
             bgcolor: 'background.level1',
           }}
         >
-          <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-            xk Wallet replied
-          </Typography>
+          <Tooltip sx={{ maxWidth: '320px' }} title={t<string>('forms.confidential')} variant="soft">
+            <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+              {t<string>('forms.0', { length: data.fields[PrivacyRule.Confidential].length })}
+            </Typography>
+          </Tooltip>
           <Divider orientation="vertical" />
-          <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
-            Last modified
-          </Typography>
+          <Tooltip sx={{ maxWidth: '320px' }} title={t<string>('forms.internal')} variant="soft">
+            <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+              {t<string>('forms.1', { length: data.fields[PrivacyRule.Internal].length })}
+            </Typography>
+          </Tooltip>
+          <Divider orientation="vertical" />
+          <Tooltip sx={{ maxWidth: '320px' }} title={t<string>('forms.restricted')} variant="soft">
+            <Typography level="body3" sx={{ fontWeight: 'md', color: 'text.secondary' }}>
+            {t<string>('forms.2', { length: data.fields[PrivacyRule.Restricted].length })}
+            </Typography>
+          </Tooltip>
         </CardOverflow>
 
       </Card>}

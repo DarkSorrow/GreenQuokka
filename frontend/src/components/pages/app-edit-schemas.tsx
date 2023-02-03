@@ -66,7 +66,7 @@ export const AppEditSchemaPage = () => {
     version: 1,
     schema_body: schema,
     schema_rights: {},
-    contracts: {},
+    contracts: '',
     format: 'json',
   });
   const [listContract, setListContract] = useState<ContractData[]>([{
@@ -137,7 +137,8 @@ export const AppEditSchemaPage = () => {
         body: JSON.stringify({
           ...template,
           schema_body: JSON.stringify(template.schema_body),
-          schema_rights: JSON.stringify(privacyFields),
+          schema_rights: JSON.stringify(privacyFields.fields),
+          contracts: JSON.stringify(listContract),
         }),
       });
       setSubmit(false);

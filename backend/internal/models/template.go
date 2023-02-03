@@ -8,18 +8,18 @@ import (
 )
 
 type Template struct {
-	Topic        string            `json:"topic"`
-	Subject      string            `json:"subject"`
-	Version      int               `json:"version"`
-	Description  string            `json:"description"`
-	Format       string            `json:"format"`
-	Active       bool              `json:"active"`
-	SchemaBody   string            `json:"schema_body"`
-	SchemaRights string            `json:"schema_rights"`
-	Contracts    map[string]string `json:"contracts"`
-	CreatedAt    time.Time         `json:"createdAt"`
-	UpdatedBy    string            `json:"updatedBy"`
-	UpdatedAt    time.Time         `json:"updatedAt"`
+	Topic        string    `json:"topic"`
+	Subject      string    `json:"subject"`
+	Version      int       `json:"version"`
+	Description  string    `json:"description"`
+	Format       string    `json:"format"`
+	Active       bool      `json:"active"`
+	SchemaBody   string    `json:"schema_body"`
+	SchemaRights string    `json:"schema_rights"`
+	Contracts    string    `json:"contracts"`
+	CreatedAt    time.Time `json:"createdAt"`
+	UpdatedBy    string    `json:"updatedBy"`
+	UpdatedAt    time.Time `json:"updatedAt"`
 }
 
 var TemplateTopics = map[string]bool{
@@ -34,7 +34,7 @@ func (db DatabaseManager) QueryForm(qctx *QueryContext, legalID *string, topic *
 		active        *bool
 		schema_body   string
 		schema_rights string
-		contracts     *map[string]string
+		contracts     *string
 		updated_at    time.Time
 		updated_by    gocql.UUID
 	)
@@ -58,7 +58,7 @@ func (db DatabaseManager) QueryForm(qctx *QueryContext, legalID *string, topic *
 		Active:       cassandraDefault(active, true),
 		SchemaBody:   schema_body,
 		SchemaRights: schema_rights,
-		Contracts:    cassandraDefault(contracts, map[string]string{}),
+		Contracts:    cassandraDefault(contracts, "[]"),
 		UpdatedAt:    updated_at,
 		UpdatedBy:    updated_by.String(),
 	}, nil
@@ -83,7 +83,7 @@ func (db DatabaseManager) QueryTemplates(qctx *QueryContext, topic *string, lega
 			active        *bool
 			schema_body   string
 			schema_rights string
-			contracts     *map[string]string
+			contracts     *string
 			updated_at    time.Time
 			updated_by    gocql.UUID
 		)
@@ -102,7 +102,7 @@ func (db DatabaseManager) QueryTemplates(qctx *QueryContext, topic *string, lega
 			Active:       cassandraDefault(active, true),
 			SchemaBody:   schema_body,
 			SchemaRights: schema_rights,
-			Contracts:    cassandraDefault(contracts, map[string]string{}),
+			Contracts:    cassandraDefault(contracts, "[]"),
 			UpdatedAt:    updated_at,
 			UpdatedBy:    updated_by.String(),
 		})
@@ -118,7 +118,7 @@ func (db DatabaseManager) QueryTemplate(qctx *QueryContext, legalID *string, top
 		active        *bool
 		schema_body   string
 		schema_rights string
-		contracts     *map[string]string
+		contracts     *string
 		updated_at    time.Time
 		updated_by    gocql.UUID
 	)
@@ -139,7 +139,7 @@ func (db DatabaseManager) QueryTemplate(qctx *QueryContext, legalID *string, top
 		Active:       cassandraDefault(active, true),
 		SchemaBody:   schema_body,
 		SchemaRights: schema_rights,
-		Contracts:    cassandraDefault(contracts, map[string]string{}),
+		Contracts:    cassandraDefault(contracts, "[]"),
 		UpdatedAt:    updated_at,
 		UpdatedBy:    updated_by.String(),
 	}, nil
