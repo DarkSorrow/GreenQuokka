@@ -20,6 +20,7 @@ import { AppCardTitle } from "../molecules/app-card-title";
 import { AppFieldPrivacy } from "../molecules/app-field-privacy";
 import { AppFieldContract } from "../organisms/app-field-contracts";
 import { Template, PrivacyRule, PrivacySchema, ContractType, ContractData } from "../../types/Schemas";
+import { LoadingSuspense } from "../atoms/loading-suspense";
 
 const schema: RJSFSchema = {
   "title": "Example",
@@ -122,6 +123,40 @@ export const AppEditSchemaPage = () => {
     }
   }, [debounceValue]);
   
+  // TODO make the version type differently
+  // Allow version diff and only let use review old version
+  // Modification made must create a new version in order not to break compatibility
+  useEffect(() => {
+    setLoading(true);
+    const init = async () => {
+      const response = await fetch(`/api/v1/template/${topic}/${subject}`, {
+        method: 'GET',
+        headers: {
+          "X-Quokka-Token": userToken ?? '',
+        }
+      });
+      const resp = await response.json();
+      console.log("SCHEMA LOAD FIRST DATA")
+      if (response.status === 200) {
+        console.log(resp)
+        setTemplate((prev) => ({
+          ...prev,
+          subject: resp.data.subject,
+          format: resp.data.format,
+          schema_body: JSON.parse(resp.data.schema_body),
+          schema_rights: JSON.parse(resp.data.schema_rights),
+        }));
+        setListContract(JSON.parse(resp.data.contracts))
+      }
+      setLoading(false);
+    }
+    if (isEdit) {
+      init();
+    } else {
+      setLoading(false);
+    }
+  }, [topic, subject, isEdit])
+
   const submitForms = async () => {
     setSubmit(true);
     try {
@@ -149,6 +184,9 @@ export const AppEditSchemaPage = () => {
     }
   }
 
+  if (loading) {
+    return <LoadingSuspense />;
+  }
   return (
     <AppEditSchemaTemplate 
       title={<AppTitle
@@ -156,6 +194,7 @@ export const AppEditSchemaPage = () => {
         subtitle={t<string>('eschema.subtitle')}
       />}
       schemaInfo={<AppSchemaInfo
+        isEdit={isEdit}
         template={template}
         setTemplate={setTemplate}
         subject={t<string>('eschema.subject')}

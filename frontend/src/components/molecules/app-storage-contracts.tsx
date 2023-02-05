@@ -69,7 +69,7 @@ const CardContract = ({ contract }: MolecileProps) => {
       >
         StorageMarketActor
       </Link>{' '}
-      The React component library you always wanted
+      Informations
     </Typography>
     <Link
       component="button"

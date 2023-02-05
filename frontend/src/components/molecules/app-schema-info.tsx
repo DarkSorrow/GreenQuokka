@@ -12,6 +12,7 @@ interface MoleculeProps {
   subject: string;
   version: string;
   format: string;
+  isEdit: boolean;
 }
 /*
 export interface Template {
@@ -25,7 +26,7 @@ export interface Template {
   createdAt?: Date;
 }
 */
-export const AppSchemaInfo = ({ subject, version, format, template, setTemplate }: MoleculeProps) => {
+export const AppSchemaInfo = ({ isEdit, subject, version, format, template, setTemplate }: MoleculeProps) => {
   return (<Card
     variant="outlined"
     orientation="horizontal"
@@ -36,7 +37,7 @@ export const AppSchemaInfo = ({ subject, version, format, template, setTemplate 
   >
     <Grid container spacing={2} sx={{ flexGrow: 1 }}>
       <Grid xs={6}>
-        <Input value={template.subject} onChange={(event) => {
+        <Input disabled={isEdit} value={template.subject} onChange={(event) => {
           setTemplate((prev) => ({
             ...prev,
             subject: event.target.value
@@ -52,7 +53,7 @@ export const AppSchemaInfo = ({ subject, version, format, template, setTemplate 
         }} type="number" placeholder={version} fullWidth />
       </Grid>
       <Grid xs={4}>
-        <Select placeholder={format} value={template.format} onChange={(e, newValue) => {
+        <Select disabled={isEdit} placeholder={format} value={template.format} onChange={(e, newValue) => {
           setTemplate((prev) => ({
             ...prev,
             format: newValue || 'json'

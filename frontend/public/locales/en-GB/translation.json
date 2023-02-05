@@ -64,7 +64,8 @@
     "version": "Version",
     "update": "Updated at",
     "format": "Format",
-    "link": "URL link"
+    "link": "URL link",
+    "linkDesc": "Link to load the form, used by your clients"
   },
   "eschema": {
     "title": "Schema creation",

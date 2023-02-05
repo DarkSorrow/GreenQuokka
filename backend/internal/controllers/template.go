@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"context"
+	"net/url"
 	"strconv"
 	"time"
 
@@ -26,16 +27,26 @@ func (h ApiHandler) GetTemplates(ctx *fiber.Ctx) error {
 
 func (h ApiHandler) GetTemplate(ctx *fiber.Ctx) error {
 	lid := fromLocal(ctx, "lid")
-	topic := ctx.Params("topic", "")
-	subject := ctx.Params("subject", "")
-	if subject == "" || topic == "" {
+	encodedTopic := ctx.Params("topic", "")
+	encodedSubject := ctx.Params("subject", "")
+	if encodedSubject == "" || encodedTopic == "" {
 		return ctx.Status(400).JSON(fiber.Map{"error": "NoMatch"})
+	}
+	subject, decErr := url.QueryUnescape(encodedSubject)
+	if decErr != nil {
+		h.Log.Error("get-template", zap.Error(decErr), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
+	}
+	topic, decErr := url.QueryUnescape(encodedTopic)
+	if decErr != nil {
+		h.Log.Error("get-template", zap.Error(decErr), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
 	}
 	queryStruct := h.DBManager.GetContextPage(ctx)
 	defer queryStruct.Cancel()
 	template, err := h.DBManager.QueryTemplate(queryStruct, &lid, &topic, &subject)
 	if err != nil {
-		h.Log.Error("sel-template", zap.Error(err), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		h.Log.Error("sel-template", zap.Error(err), zap.String("topic", topic), zap.String("subject", subject), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
 		return ctx.Status(404).JSON(fiber.Map{"error": "NoMatch"})
 	}
 	return ctx.JSON(fiber.Map{"status": 1, "data": template})

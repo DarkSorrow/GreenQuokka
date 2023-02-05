@@ -40,8 +40,8 @@ export const AppSchemasPage = () => {
     i18nMessage: '',
   });
   const openClient = (event: MouseEvent<HTMLButtonElement>) => {
-    if (event.currentTarget.dataset && event.currentTarget.dataset['id'] && value) {
-      navigate(`/schemas/topic/${value.topics}/${event.currentTarget.dataset['id']}`)
+    if (event.currentTarget.dataset && event.currentTarget.dataset['name'] && value) {
+      navigate(`/schemas/topic/${value.topics}/${event.currentTarget.dataset['name']}`)
     }
   }
 
@@ -62,6 +62,7 @@ export const AppSchemasPage = () => {
             data: resp.data.map((data: Template) => ({
               ...data,
               id: `${data.subject}-${data.version}-${data.topic}`,
+              name: data.subject,
               link: `${window.location.origin}/forms/${userToken}/${data.topic}/${data.subject}/${data.version}`
             })),
           });
@@ -121,6 +122,7 @@ export const AppSchemasPage = () => {
       icon={<EditIcon color="primary" />}
       onClick={openClient}
       data-id={params.id}
+      data-name={params.row.subject}
       label="edit-row"
     />,
     <GridActionsCellItem

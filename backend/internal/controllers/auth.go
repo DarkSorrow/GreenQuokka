@@ -303,7 +303,12 @@ func (h AuthHandler) GetForms(ctx *fiber.Ctx) error {
 		h.Log.Error("get-forms", zap.Error(decErr), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
 		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
 	}
-	templates, err := h.DBManager.QueryForm(queryStruct, &lid, &topic, &decoded, &version)
+	decodedTopic, decErr := url.QueryUnescape(topic)
+	if decErr != nil {
+		h.Log.Error("get-forms", zap.Error(decErr), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
+		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
+	}
+	templates, err := h.DBManager.QueryForm(queryStruct, &lid, &decodedTopic, &decoded, &version)
 	if err != nil {
 		h.Log.Error("get-forms", zap.Error(err), zap.String("nvID", ctx.Get("X-Nv-Id", "")))
 		return ctx.Status(500).JSON(fiber.Map{"error": "InternalError"})
