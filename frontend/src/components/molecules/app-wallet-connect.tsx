@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import { useAccount, useConnect, useDisconnect } from 'wagmi';
 import { InjectedConnector } from 'wagmi/connectors/injected';
 
-
 // <ListItemButton variant="soft" color="primary">
 export const AppWalletConnect = () => {
   const { t } = useTranslation();

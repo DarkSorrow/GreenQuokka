@@ -6,7 +6,7 @@ import { onError } from '../utils/functions';
 import { STORAGE_TOKEN, PREF_TOKEN } from "../utils/constants";
 import { Openi18nOption, EntitiesGroup, LegalEntity } from '../types/Schemas';
 //import { nvFetch } from '../services/fetch';
-
+//https://api.filrep.io/api/v1/miners
 const emptyLegal: LegalEntity = {
 	shards: '',
 	shardsList: [],
@@ -115,9 +115,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const info = localStorage.getItem(STORAGE_TOKEN);
       if (info) {
         const parsedInfo = JSON.parse(info);
-        arg.userToken = parsedInfo.token;
-        arg.exp = parsedInfo.exp;
-        arg.entities = parsedInfo.entities;
+        //if (parsedInfo.exp <= new Date()) {
+          arg.userToken = parsedInfo.token;
+          arg.exp = parsedInfo.exp;
+          arg.entities = parsedInfo.entities;  
+        //}
       }
     } catch (err) {
       onError('token error')

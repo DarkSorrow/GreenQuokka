@@ -48,11 +48,11 @@ export const AnonymousHeader = ({ setDrawerOpen }: OrganismsProp) => {
       </Box>
       <Box component="nav" aria-label="My site" sx={{ flexGrow: 1 }}>
         <AnonymousRoutesLink
-          role="menubar" sx={{ display: { xs: 'none', sm: 'inline-flex' } }} row
+          role="menubar" sx={{ display: { xs: 'none', sm: 'inline-flex' } }} orientation="horizontal"
         />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 1.5 }}>
-        <AnonymousRoutesSettings row />
+        <AnonymousRoutesSettings orientation="horizontal" />
       </Box>
     </>
   );

@@ -63,7 +63,8 @@
     "subject": "Name",
     "version": "Version",
     "update": "Updated at",
-    "format": "Format"
+    "format": "Format",
+    "link": "Liens URL"
   },
   "eschema": {
     "title": "Schema creation",
@@ -104,6 +105,22 @@
   },
   "cfDel": "Are you sure you want to delete \"{{name}}\"?",
   "forms": {
-    "wallet": "This forms rewards you when your data are used in analytics contracts. Connect your wallet to sign your request and receive rewards when your data are used!"
-  }
+    "wallet": "This forms rewards you when your data are used in analytics contracts. Connect your wallet to sign your request and receive rewards when your data are used!",
+    "0": "{{length}} Hidden",
+    "1": "{{length}} Company only",
+    "2": "{{length}} Marketing",
+    "confidential": "Those data can't be accessed by the company, they will be encrypted and only some formula will be made to use those data. For exemple age > 10",
+    "internal": "Those data can be accessed by the company only, they won't be shared to anyone else",
+    "restricted": "Those data can be used for marketing purpose and access given to third party company. While accessing those data and if your wallet was used you may receive some rewards"
+  },
+  "place": {
+    "owned": "Owned",
+    "list": "List",
+    "connect": "Please connect to your wallet to view the list",
+    "nodata": "You don't have any contract",
+    "fund": "Fund"
+  },
+  "balance": "Balance: {{val}}",
+  "network": "Network: {{val}}",
+  "address": "Address: "
 }

@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler } from 'react-hook-form';
 import Alert from '@mui/joy/Alert';
 import Box from '@mui/joy/Box';
+import Button from '@mui/joy/Button';
+import Divider from '@mui/joy/Divider';
 
 import { IFormSignin, SignInSchema } from '../../types/Zod'
 import { Form } from "../atoms/forms";
@@ -72,7 +74,9 @@ export const AnonymousSignin = () => {
           {error && (<Box sx={{ width: '100%' }}>
             <Alert color="danger">{t<string>(error)}</Alert>
           </Box>)}
-          <SubmitLoading label={t<string>('register')} />
+          <SubmitLoading label={t<string>('login')} />
+          <Divider>Or</Divider>
+          <Button disabled={true}>Signin with wallet</Button>
         </Stack>
       </Form>}
       footer={<FooterTextLink

@@ -183,7 +183,7 @@ export const AppSchemasPage = () => {
       topicsManagement={
       <Card
         variant="outlined"
-        row
+        orientation="horizontal"
         sx={{
           width: '100%',
           gap: 2,

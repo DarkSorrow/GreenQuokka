@@ -1,8 +1,5 @@
 import Box from '@mui/joy/Box';
 import Button from '@mui/joy/Button';
-import ListItemButton from '@mui/joy/ListItemButton';
-import ListItemDecorator from '@mui/joy/ListItemDecorator';
-import ListItemContent from '@mui/joy/ListItemContent';
 import Typography from '@mui/joy/Typography';
 import { useTranslation } from "react-i18next";
 import { useAccount, useConnect, useDisconnect } from 'wagmi';

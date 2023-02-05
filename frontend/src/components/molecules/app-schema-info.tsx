@@ -28,7 +28,7 @@ export interface Template {
 export const AppSchemaInfo = ({ subject, version, format, template, setTemplate }: MoleculeProps) => {
   return (<Card
     variant="outlined"
-    row
+    orientation="horizontal"
     sx={{
       width: '100%',
       gap: 2,

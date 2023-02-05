@@ -9,7 +9,7 @@ interface MoleculeProps {
 export const AppTitle = ({ title, subtitle }: MoleculeProps) => {
   return (<Card
     variant="outlined"
-    row
+    orientation="horizontal"
     sx={{
       width: '100%',
       gap: 2,

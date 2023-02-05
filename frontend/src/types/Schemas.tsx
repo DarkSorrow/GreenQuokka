@@ -190,3 +190,31 @@ export interface ContractData {
   qty: number;
   currency: string;
 }
+
+interface MinersPagination {
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+interface MinerScores {
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+interface MinerStorage {
+  total: number;
+  offset: number;
+  limit: number;
+}
+
+interface Miner {
+  storage: MinerStorage;
+  scores: MinerScores;
+}
+
+export interface MinersData {
+  pagination: MinersPagination;
+  miners: Miner[];
+}
